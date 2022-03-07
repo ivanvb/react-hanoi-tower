@@ -3,6 +3,7 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { getData, canMove, performMovement } from './controller/HanoiController';
 import DraggableDisk from './components/Disk/DraggableDisk';
 import { useRefMap } from './hooks/useRefMap';
+import { useHanoiGame } from './hooks/useHanoiGame';
 
 const data = getData();
 const disksIds = data.containers.reduce((acc, curr) => [...acc, ...curr.blocks], []);
@@ -10,6 +11,7 @@ const disksIds = data.containers.reduce((acc, curr) => [...acc, ...curr.blocks],
 function App() {
     const [state, setState] = React.useState(data);
     const [dragSuccess, setDragSuccess] = React.useState(true);
+    const { moves, increaseMoves } = useHanoiGame();
 
     const columnsRefs = useRefMap(data.containers.map(({ id }) => id));
     const disksRefs = useRefMap(disksIds);
@@ -22,6 +24,7 @@ function App() {
             setState((prev) => ({
                 ...performMovement(prev, draggableId, source.droppableId, destination.droppableId),
             }));
+            increaseMoves();
         } else {
             setDragSuccess(false);
         }
@@ -41,6 +44,9 @@ function App() {
 
     return (
         <main className="container py-8">
+            <div className="h-20">
+                <p className="text-right text-2xl">{moves}</p>
+            </div>
             <DragDropContext
                 onDragStart={() => setDragSuccess(true)}
                 onDragUpdate={onDragUpdate}
