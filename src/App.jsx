@@ -44,13 +44,17 @@ function App() {
 
     return (
         <main className="container py-8">
-            <div className="h-12 flex justify-between items-center bg-[#012A4A] px-4 py-8 rounded shadow-lg mb-6 font-bold tracking-wide font-mono">
-                <p className="text-center">
+            <div className="h-12 flex justify-between items-center bg-[#012A4A] px-4 py-8 rounded shadow-lg mb-6 font-bold tracking-wide font-mono text-center">
+                <p>
                     Ideal Moves
                     <br />
                     {idealMoves}
                 </p>
-                <p>{moves}</p>
+                <p>
+                    Moves
+                    <br />
+                    {moves}
+                </p>
             </div>
             <DragDropContext
                 onDragStart={() => setDragSuccess(true)}
