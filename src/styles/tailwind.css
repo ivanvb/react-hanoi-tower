@@ -5,10 +5,11 @@
 #root {
     @apply flex flex-col min-h-screen bg-gray-800 text-white;
     background: #023a63;
+    overflow-y: hidden;
 }
 
 .box {
-    padding: 20px;
+    padding: 10px;
     border-radius: 10px;
     height: 180px;
     width: 180px;
@@ -21,7 +22,7 @@
 
 .box::before {
     content: '';
-    height: 20px;
+    height: 10px;
     width: 100%;
     bottom: 0;
     left: 0;
