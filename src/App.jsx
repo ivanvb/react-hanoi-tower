@@ -2,15 +2,17 @@ import React, { useCallback, useRef } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { getData, canMove, performMovement } from './controller/HanoiController';
 import DraggableDisk from './components/Disk/DraggableDisk';
+import { useRefMap } from './hooks/useRefMap';
 
 const data = getData();
-const amountOfDisks = data.containers.reduce((acc, curr) => acc + curr.blocks.length, 0);
+const disksIds = data.containers.reduce((acc, curr) => [...acc, ...curr.blocks], []);
 
 function App() {
     const [state, setState] = React.useState(data);
     const [dragSuccess, setDragSuccess] = React.useState(true);
-    const columns = useRef(Array.from(Array(data.containers.length)).map((_) => React.createRef()));
-    const fadeItemsRef = useRef(Array.from(Array(amountOfDisks)).map((_) => React.createRef()));
+
+    const columnsRefs = useRefMap(data.containers.map(({ id }) => id));
+    const disksRefs = useRefMap(disksIds);
 
     const onDragEnd = useCallback((result) => {
         const { destination, draggableId, source } = result;
@@ -53,11 +55,7 @@ function App() {
                                 ignoreContainerClipping={true}
                             >
                                 {(provided, snapshot) => {
-                                    const columnRef =
-                                        columns.current[
-                                            Number.parseInt(ct.id.replace('c', '') - 1)
-                                        ];
-
+                                    const columnRef = columnsRefs[ct.id];
                                     return (
                                         <div
                                             className="box"
@@ -83,16 +81,7 @@ function App() {
                                                                         snapshot={snapshot}
                                                                         state={state}
                                                                         block={block}
-                                                                        diskRef={
-                                                                            fadeItemsRef.current[
-                                                                                Number.parseInt(
-                                                                                    block.replace(
-                                                                                        'b',
-                                                                                        ''
-                                                                                    ) - 1
-                                                                                )
-                                                                            ]
-                                                                        }
+                                                                        diskRef={disksRefs[block]}
                                                                         dragSuccess={dragSuccess}
                                                                         columnRef={columnRef}
                                                                     />
