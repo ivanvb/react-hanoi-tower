@@ -5,7 +5,7 @@
     "scripts": {
         "dev": "concurrently \"yarn build:tailwind --watch\" \"vite\"",
         "build:tailwind": "tailwindcss -i ./src/styles/tailwind.css -o ./src/styles/tailwind.build.css",
-        "build": "yarn build && vite build",
+        "build": "yarn build:tailwind && vite build",
         "preview": "yarn vite preview"
     },
     "dependencies": {

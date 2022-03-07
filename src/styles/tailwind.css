@@ -4,10 +4,10 @@
 
 #root {
     @apply flex flex-col min-h-screen bg-gray-800 text-white;
+    background: #023a63;
 }
 
 .box {
-    border: 1px solid white;
     padding: 20px;
     border-radius: 10px;
     height: 180px;
@@ -16,6 +16,37 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
+    position: relative;
+}
+
+.box::before {
+    content: '';
+    height: 20px;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    background: #012a4a;
+    position: absolute;
+    border-radius: 20px;
+}
+
+.box::after {
+    content: '';
+    left: 50%;
+    bottom: 0;
+    height: 90%;
+    width: 10px;
+    position: absolute;
+    background: #012a4a;
+    transform: translate(-50%, 0);
+    border-radius: 10px;
+}
+
+.disk > div {
+    background: #2d7ca0 !important;
+    border: 2px solid #012a4a;
+    position: relative;
+    z-index: 1;
 }
 
 .disk:not(.is-dragging) {
