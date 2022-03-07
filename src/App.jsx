@@ -11,7 +11,7 @@ const disksIds = data.containers.reduce((acc, curr) => [...acc, ...curr.blocks],
 function App() {
     const [state, setState] = React.useState(data);
     const [dragSuccess, setDragSuccess] = React.useState(true);
-    const { moves, increaseMoves } = useHanoiGame();
+    const { moves, increaseMoves, idealMoves } = useHanoiGame(disksIds.length);
 
     const columnsRefs = useRefMap(data.containers.map(({ id }) => id));
     const disksRefs = useRefMap(disksIds);
@@ -44,8 +44,13 @@ function App() {
 
     return (
         <main className="container py-8">
-            <div className="h-20">
-                <p className="text-right text-2xl">{moves}</p>
+            <div className="h-12 flex justify-between items-center">
+                <p className="text-center">
+                    Ideal Moves
+                    <br />
+                    {idealMoves}
+                </p>
+                <p>{moves}</p>
             </div>
             <DragDropContext
                 onDragStart={() => setDragSuccess(true)}
