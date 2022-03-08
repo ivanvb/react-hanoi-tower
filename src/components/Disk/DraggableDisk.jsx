@@ -2,7 +2,16 @@ import React from 'react';
 import { getBlockId } from '../../controller/HanoiController';
 import Disk from './Disk';
 
-const DraggableDisk = ({ state, provided, snapshot, block, dragSuccess, diskRef, columnRef }) => {
+const DraggableDisk = ({
+    state,
+    provided,
+    snapshot,
+    block,
+    dragSuccess,
+    diskRef,
+    columnRef,
+    columnsRefs,
+}) => {
     const currentId = getBlockId(block);
     const currentBlock = React.useMemo(() => {
         return state.containers.find((cont) => cont.blocks.includes(block))?.id;
@@ -12,13 +21,13 @@ const DraggableDisk = ({ state, provided, snapshot, block, dragSuccess, diskRef,
         if (!style || !snapshot) return {};
 
         if (
-            !snapshot.isDropAnimating ||
+            (snapshot.mode !== 'SNAP' && !snapshot.isDropAnimating) ||
             !snapshot.draggingOver ||
             snapshot.draggingOver === currentBlock
         ) {
             return style;
         }
-        const targetContainer = document.querySelector(`#${snapshot.draggingOver}`);
+        const targetContainer = columnsRefs[snapshot.draggingOver].current;
 
         // Here we clone the current disk, which is being dragged, and remove the styles applied
         // by the library to allow it to be placed into its original position. We make two clones of it
