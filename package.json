@@ -3,7 +3,7 @@
     "private": true,
     "version": "0.0.0",
     "scripts": {
-        "dev": "concurrently \"yarn build:tailwind --watch\" \"vite\"",
+        "dev": "concurrently \"yarn build:tailwind --watch\" \"vite --host\"",
         "build:tailwind": "tailwindcss -i ./src/styles/tailwind.css -o ./src/styles/tailwind.build.css",
         "build": "yarn build:tailwind && vite build",
         "preview": "yarn vite preview"
