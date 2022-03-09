@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 #root {
-    @apply flex flex-col min-h-screen bg-gray-800 text-white;
+    @apply flex flex-col min-h-screen text-white bg-gray-800;
     background: #023a63;
     overflow-y: hidden;
 }
@@ -48,6 +48,8 @@
     border: 2px solid #012a4a;
     position: relative;
     z-index: 1;
+    border: 1px solid red;
+    transition: all;
 }
 
 .disk:not(.is-dragging) {

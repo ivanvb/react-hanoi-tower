@@ -1,6 +1,32 @@
 import React from 'react';
 import { getBlockId } from '../../controller/HanoiController';
+import { getPixelValue } from '../../utils/DOM';
 import Disk from './Disk';
+
+function getTopDiskCoords(container, currentDisk, topDiskDims) {
+    const { width: currentWidth, height: currentHeight } = currentDisk.getBoundingClientRect();
+    if (!topDiskDims) {
+        topDiskDims = container.querySelector('.disk')?.getBoundingClientRect();
+    }
+
+    if (!topDiskDims) {
+        const paddingBottom = getPixelValue(container, 'padding-bottom');
+        const { x, y, height, width } = container.getBoundingClientRect();
+
+        const yPos = Math.floor(y + height - paddingBottom - currentHeight / 2);
+        const xPos = x + width / 2 - currentWidth / 2;
+
+        return { x: xPos, y: yPos };
+    } else {
+        const { x: containerX, width: containerWidth } = container.getBoundingClientRect();
+        const { y, height } = topDiskDims;
+
+        return {
+            y: Math.ceil(y + height / 2),
+            x: containerX + containerWidth / 2 - currentWidth / 2,
+        };
+    }
+}
 
 const DraggableDisk = ({
     state,
@@ -11,6 +37,7 @@ const DraggableDisk = ({
     diskRef,
     columnRef,
     columnsRefs,
+    dbd,
 }) => {
     const currentId = getBlockId(block);
     const currentBlock = React.useMemo(() => {
@@ -29,22 +56,13 @@ const DraggableDisk = ({
         }
         const targetContainer = columnsRefs[snapshot.draggingOver].current;
 
-        // Here we clone the current disk, which is being dragged, and remove the styles applied
-        // by the library to allow it to be placed into its original position. We make two clones of it
-        // because we need to insert one into each container to calculate the translate distance so the
-        // animation displays properly
-        const dummy = diskRef.current.cloneNode();
-        dummy.removeAttribute('style');
-        const d2 = dummy.cloneNode();
+        // current column
+        const { x, y } = getTopDiskCoords(columnRef.current, diskRef.current, dbd.current);
 
-        targetContainer.prepend(dummy);
-        const { x, y } = dummy.getBoundingClientRect();
+        // target column
+        const { x: cx, y: cy } = getTopDiskCoords(targetContainer, diskRef.current);
 
-        columnRef.current.prepend(d2);
-        const { x: cx, y: cy } = d2.getBoundingClientRect();
-        let translate = `translate(${x - cx}px, ${y - cy}px)`;
-        dummy.remove();
-        d2.remove();
+        let translate = `translate(${cx - x}px, ${cy - y}px)`;
 
         if (!dragSuccess) {
             translate = `translate(0px, 0px)`;

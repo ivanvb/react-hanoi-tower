@@ -11,7 +11,7 @@ const Disk = forwardRef(({ className, color, diskId, style, innerRef, ...rest },
     }
 
     return (
-        <div ref={setRef} {...rest} style={style} className={`${className} disk `}>
+        <div ref={setRef} {...rest} style={style} className={`${className} disk`}>
             <div
                 className="relative h-[17px] lg:h-[20px] rounded-xl"
                 style={{
@@ -19,7 +19,7 @@ const Disk = forwardRef(({ className, color, diskId, style, innerRef, ...rest },
                     width: calculatedWidth,
                 }}
             >
-                <span className="block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xs">
+                <span className="absolute block text-xs -translate-x-1/2 -translate-y-1/2 pointer-events-none top-1/2 left-1/2">
                     {diskId}
                 </span>
             </div>

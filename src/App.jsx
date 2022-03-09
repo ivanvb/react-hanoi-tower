@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useEffect } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { getData, canMove, performMovement } from './controller/HanoiController';
 import DraggableDisk from './components/Disk/DraggableDisk';
@@ -11,6 +11,7 @@ const disksIds = data.containers.reduce((acc, curr) => [...acc, ...curr.blocks],
 function App() {
     const [state, setState] = React.useState(data);
     const [dragSuccess, setDragSuccess] = React.useState(true);
+    const [isDragEnabled, setDragEnabled] = React.useState(true);
     const { moves, increaseMoves, idealMoves } = useHanoiGame(disksIds.length);
 
     const columnsRefs = useRefMap(data.containers.map(({ id }) => id));
@@ -42,6 +43,46 @@ function App() {
         innerRef && innerRef(refVal);
     }
 
+    const count = React.useRef(0);
+    const [touchMove, setTouchMove] = React.useState({
+        start: null,
+        end: null,
+    });
+    function useMyCoolSensor(api) {
+        function start() {
+            const preDrag = api.tryGetLock('b1');
+            if (!preDrag || count.current === 2) {
+                return;
+            }
+
+            const drag = preDrag.snapLift();
+            drag.moveRight();
+            // drag.moveRight();
+
+            disksRefs['b1'].current.addEventListener(
+                'transitionend',
+                function () {
+                    drag.drop();
+                    count.current = count.current + 1;
+                },
+                { once: true }
+            );
+            // drag.moveRight();
+
+            // drag.drop();
+        }
+
+        useEffect(() => {
+            // window.addEventListener('click', start);
+            if (touchMove.end !== null) {
+                console.log('hello world', touchMove);
+                start();
+            }
+        }, [touchMove.end]);
+    }
+
+    const diskBeforeDrag = useRef(null);
+
     return (
         <main className="container py-8">
             <div className="h-12 flex justify-between items-center bg-[#012A4A] px-4 py-8 rounded shadow-lg mb-6 font-bold tracking-wide font-mono text-center">
@@ -60,9 +101,14 @@ function App() {
                 onDragStart={() => setDragSuccess(true)}
                 onDragUpdate={onDragUpdate}
                 onDragEnd={onDragEnd}
+                sensors={isDragEnabled ? null : [useMyCoolSensor]}
+                onBeforeDragStart={(result) => {
+                    diskBeforeDrag.current =
+                        disksRefs[result.draggableId].current.getBoundingClientRect();
+                }}
             >
                 <div className="flex justify-between">
-                    {state.containers.map((ct) => {
+                    {state.containers.map((ct, index) => {
                         return (
                             <Droppable
                                 key={ct.id}
@@ -73,14 +119,37 @@ function App() {
                                     const columnRef = columnsRefs[ct.id];
                                     return (
                                         <div
-                                            className="box"
+                                            className="bg-gray-500 border border-gray-800 cursor-pointer box"
                                             ref={(refVal) =>
                                                 setRef(refVal, provided.innerRef, columnRef)
                                             }
                                             {...provided.droppableProps}
                                             id={ct.id}
+                                            onClick={() => {
+                                                setTouchMove((prev) => {
+                                                    // const prevCopy = { ...prev };
+                                                    // if (
+                                                    //     !prev.start &&
+                                                    //     state.containers[index].blocks.length > 0
+                                                    // ) {
+                                                    //     console.log('failure');
+                                                    //     prevCopy.start = ct.id;
+                                                    // } else if (prev.start === ct.id) {
+                                                    //     console.log(prev.start, ct.id);
+                                                    //     prevCopy.start = null;
+                                                    // } else if (prev.start) {
+                                                    //     console.log('???');
+                                                    //     prevCopy.end = ct.id;
+                                                    // }
+                                                    // console.log(prev);
+                                                    console.log('clicked');
+                                                    return {
+                                                        start: Math.random(),
+                                                        end: Math.random(),
+                                                    };
+                                                });
+                                            }}
                                         >
-                                            {provided.placeholder}
                                             {ct.blocks.map((block, i) => {
                                                 if (i === 0) {
                                                     return (
@@ -99,6 +168,8 @@ function App() {
                                                                         diskRef={disksRefs[block]}
                                                                         dragSuccess={dragSuccess}
                                                                         columnRef={columnRef}
+                                                                        columnsRefs={columnsRefs}
+                                                                        dbd={diskBeforeDrag}
                                                                     />
                                                                 );
                                                             }}
