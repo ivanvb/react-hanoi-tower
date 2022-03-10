@@ -14,14 +14,31 @@ import { useHanoiGame } from './hooks/useHanoiGame';
 const data = getData();
 const disksIds = data.containers.reduce((acc, curr) => [...acc, ...curr.blocks], []);
 
+const initialTouchState = {
+    start: null,
+    end: null,
+};
+
 function App() {
     const [state, setState] = React.useState(data);
     const [dragSuccess, setDragSuccess] = React.useState(true);
     const [isDragEnabled, setDragEnabled] = React.useState(true);
+    const [touchMove, setTouchMove] = React.useState(initialTouchState);
     const { moves, increaseMoves, idealMoves } = useHanoiGame(disksIds.length);
 
     const columnsRefs = useRefMap(data.containers.map(({ id }) => id));
     const disksRefs = useRefMap(disksIds);
+    const diskBeforeDrag = useRef(null);
+
+    useEffect(() => {
+        if (isDragEnabled) {
+            setTouchMove(initialTouchState);
+        }
+    }, [isDragEnabled]);
+
+    const onDragBeforeStart = useCallback((result) => {
+        diskBeforeDrag.current = disksRefs[result.draggableId].current.getBoundingClientRect();
+    });
 
     const onDragEnd = useCallback((result) => {
         const { destination, draggableId, source } = result;
@@ -44,17 +61,7 @@ function App() {
         setDragSuccess(canPerformMovement);
     });
 
-    function setRef(refVal, innerRef, columnRef) {
-        columnRef.current = refVal;
-        innerRef && innerRef(refVal);
-    }
-
-    const [touchMove, setTouchMove] = React.useState({
-        start: null,
-        end: null,
-    });
-
-    function useMyCoolSensor(api) {
+    function useTouchControls(api) {
         function start() {
             const targetDisk = getTopDisk(state, touchMove.start);
 
@@ -89,13 +96,31 @@ function App() {
         }, [touchMove.end]);
     }
 
-    useEffect(() => {
-        if (isDragEnabled) {
-            setTouchMove({ start: null, end: null });
-        }
-    }, [isDragEnabled]);
+    function setColumnRef(refVal, innerRef, columnRef) {
+        columnRef.current = refVal;
+        innerRef && innerRef(refVal);
+    }
 
-    const diskBeforeDrag = useRef(null);
+    function handleColumnClick(columnId, index) {
+        if (!isDragEnabled) {
+            setTouchMove((prev) => {
+                const prevCopy = { ...prev };
+
+                const columnHasBlocks = state.containers[index].blocks.length > 0;
+                if (!prev.start && columnHasBlocks) {
+                    prevCopy.start = columnId;
+                } else if (prev.start === columnId) {
+                    prevCopy.start = null;
+                } else if (prev.start) {
+                    prevCopy.end = columnId;
+                }
+                return {
+                    ...prev,
+                    ...prevCopy,
+                };
+            });
+        }
+    }
 
     return (
         <main className="container py-8">
@@ -118,11 +143,8 @@ function App() {
                 onDragStart={() => setDragSuccess(true)}
                 onDragUpdate={onDragUpdate}
                 onDragEnd={onDragEnd}
-                sensors={[useMyCoolSensor]}
-                onBeforeDragStart={(result) => {
-                    diskBeforeDrag.current =
-                        disksRefs[result.draggableId].current.getBoundingClientRect();
-                }}
+                onBeforeDragStart={onDragBeforeStart}
+                sensors={[useTouchControls]}
             >
                 <div className="flex justify-between">
                     {state.containers.map((ct, index) => {
@@ -142,32 +164,11 @@ function App() {
                                                     : ''
                                             } cursor-pointer box`}
                                             ref={(refVal) =>
-                                                setRef(refVal, provided.innerRef, columnRef)
+                                                setColumnRef(refVal, provided.innerRef, columnRef)
                                             }
                                             {...provided.droppableProps}
                                             id={ct.id}
-                                            onClick={() => {
-                                                if (!isDragEnabled) {
-                                                    setTouchMove((prev) => {
-                                                        const prevCopy = { ...prev };
-                                                        if (
-                                                            !prev.start &&
-                                                            state.containers[index].blocks.length >
-                                                                0
-                                                        ) {
-                                                            prevCopy.start = ct.id;
-                                                        } else if (prev.start === ct.id) {
-                                                            prevCopy.start = null;
-                                                        } else if (prev.start) {
-                                                            prevCopy.end = ct.id;
-                                                        }
-                                                        return {
-                                                            ...prev,
-                                                            ...prevCopy,
-                                                        };
-                                                    });
-                                                }
-                                            }}
+                                            onClick={() => handleColumnClick(ct.id, index)}
                                         >
                                             {ct.blocks.map((block, i) => {
                                                 if (i === 0) {
