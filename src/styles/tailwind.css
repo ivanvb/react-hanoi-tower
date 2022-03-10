@@ -48,7 +48,6 @@
     border: 2px solid #012a4a;
     position: relative;
     z-index: 1;
-    border: 1px solid red;
     transition: all;
 }
 
