@@ -49,7 +49,6 @@ function App() {
         innerRef && innerRef(refVal);
     }
 
-    const count = React.useRef(0);
     const [touchMove, setTouchMove] = React.useState({
         start: null,
         end: null,
@@ -59,7 +58,6 @@ function App() {
         function start() {
             const targetDisk = getTopDisk(state, touchMove.start);
 
-            console.log(targetDisk);
             const preDrag = api.tryGetLock(targetDisk);
 
             if (!preDrag) {
@@ -73,23 +71,17 @@ function App() {
             for (let i = 0; i < Math.abs(currentColIndex - targetColIndex); i++) {
                 currentColIndex > targetColIndex ? drag.moveLeft() : drag.moveRight();
             }
-            // drag.moveRight();
 
             disksRefs[targetDisk].current.addEventListener(
                 'transitionend',
                 function () {
                     drag.drop();
-                    // count.current = count.current + 1;
                 },
                 { once: true }
             );
-            // drag.moveRight();
-
-            // drag.drop();
         }
 
         useEffect(() => {
-            // window.addEventListener('click', start);
             if (touchMove.end !== null && isDragEnabled === false) {
                 start();
                 setTouchMove({ start: null, end: null });
@@ -163,16 +155,12 @@ function App() {
                                                             state.containers[index].blocks.length >
                                                                 0
                                                         ) {
-                                                            console.log('failure');
                                                             prevCopy.start = ct.id;
                                                         } else if (prev.start === ct.id) {
-                                                            console.log(prev.start, ct.id);
                                                             prevCopy.start = null;
                                                         } else if (prev.start) {
-                                                            console.log('???');
                                                             prevCopy.end = ct.id;
                                                         }
-                                                        // console.log(prev);
                                                         return {
                                                             ...prev,
                                                             ...prevCopy,
