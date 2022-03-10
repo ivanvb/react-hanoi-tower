@@ -19,7 +19,7 @@ const Disk = forwardRef(({ className, color, diskId, style, innerRef, ...rest },
                     width: calculatedWidth,
                 }}
             >
-                <span className="absolute block text-xs -translate-x-1/2 -translate-y-1/2 pointer-events-none top-1/2 left-1/2">
+                <span className="absolute block text-xs -translate-x-1/2 -translate-y-1/2 select-none top-1/2 left-1/2">
                     {diskId}
                 </span>
             </div>
