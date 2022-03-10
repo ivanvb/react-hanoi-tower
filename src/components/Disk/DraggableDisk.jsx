@@ -1,32 +1,7 @@
 import React from 'react';
 import { getBlockId } from '../../controller/HanoiController';
-import { getPixelValue } from '../../utils/DOM';
+import { getTopDiskCoords } from '../../utils/HanoiUtils';
 import Disk from './Disk';
-
-function getTopDiskCoords(container, currentDisk, topDiskDims) {
-    const { width: currentWidth, height: currentHeight } = currentDisk.getBoundingClientRect();
-    if (!topDiskDims) {
-        topDiskDims = container.querySelector('.disk')?.getBoundingClientRect();
-    }
-
-    if (!topDiskDims) {
-        const paddingBottom = getPixelValue(container, 'padding-bottom');
-        const { x, y, height, width } = container.getBoundingClientRect();
-
-        const yPos = Math.floor(y + height - paddingBottom - currentHeight / 2);
-        const xPos = x + width / 2 - currentWidth / 2;
-
-        return { x: xPos, y: yPos };
-    } else {
-        const { x: containerX, width: containerWidth } = container.getBoundingClientRect();
-        const { y, height } = topDiskDims;
-
-        return {
-            y: Math.ceil(y + height / 2),
-            x: containerX + containerWidth / 2 - currentWidth / 2,
-        };
-    }
-}
 
 const DraggableDisk = ({
     state,
@@ -62,7 +37,9 @@ const DraggableDisk = ({
         // target column
         const { x: cx, y: cy } = getTopDiskCoords(targetContainer, diskRef.current);
 
-        let translate = `translate(${cx - x}px, ${cy - y}px)`;
+        let translate = `translate(${cx - x}px, ${
+            cy - y - diskRef.current.getBoundingClientRect().height
+        }px)`;
 
         if (!dragSuccess) {
             translate = `translate(0px, 0px)`;
