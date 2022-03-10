@@ -160,9 +160,9 @@ function App() {
                                         <div
                                             className={`${
                                                 touchMove.start === ct.id
-                                                    ? 'bg-gray-500 border border-gray-800'
-                                                    : ''
-                                            } cursor-pointer box`}
+                                                    ? 'bg-gray-500 border-gray-800'
+                                                    : 'border-transparent'
+                                            } cursor-pointer box border`}
                                             ref={(refVal) =>
                                                 setColumnRef(refVal, provided.innerRef, columnRef)
                                             }
