@@ -1,6 +1,12 @@
 import React, { useCallback, useRef, useEffect } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import { getData, canMove, performMovement } from './controller/HanoiController';
+import {
+    getData,
+    canMove,
+    performMovement,
+    getTopDisk,
+    getColId,
+} from './controller/HanoiController';
 import DraggableDisk from './components/Disk/DraggableDisk';
 import { useRefMap } from './hooks/useRefMap';
 import { useHanoiGame } from './hooks/useHanoiGame';
@@ -48,22 +54,32 @@ function App() {
         start: null,
         end: null,
     });
+
     function useMyCoolSensor(api) {
         function start() {
-            const preDrag = api.tryGetLock('b1');
-            if (!preDrag || count.current === 2) {
+            const targetDisk = getTopDisk(state, touchMove.start);
+
+            console.log(targetDisk);
+            const preDrag = api.tryGetLock(targetDisk);
+
+            if (!preDrag) {
                 return;
             }
 
             const drag = preDrag.snapLift();
-            drag.moveRight();
+            const currentColIndex = getColId(touchMove.start);
+            const targetColIndex = getColId(touchMove.end);
+
+            for (let i = 0; i < Math.abs(currentColIndex - targetColIndex); i++) {
+                currentColIndex > targetColIndex ? drag.moveLeft() : drag.moveRight();
+            }
             // drag.moveRight();
 
-            disksRefs['b1'].current.addEventListener(
+            disksRefs[targetDisk].current.addEventListener(
                 'transitionend',
                 function () {
                     drag.drop();
-                    count.current = count.current + 1;
+                    // count.current = count.current + 1;
                 },
                 { once: true }
             );
@@ -74,12 +90,18 @@ function App() {
 
         useEffect(() => {
             // window.addEventListener('click', start);
-            if (touchMove.end !== null) {
-                console.log('hello world', touchMove);
+            if (touchMove.end !== null && isDragEnabled === false) {
                 start();
+                setTouchMove({ start: null, end: null });
             }
         }, [touchMove.end]);
     }
+
+    useEffect(() => {
+        if (isDragEnabled) {
+            setTouchMove({ start: null, end: null });
+        }
+    }, [isDragEnabled]);
 
     const diskBeforeDrag = useRef(null);
 
@@ -96,12 +118,15 @@ function App() {
                     <br />
                     {moves}
                 </p>
+                <button onClick={() => setDragEnabled((prev) => !prev)}>
+                    {isDragEnabled ? 'enable touch' : 'enable drag'}
+                </button>
             </div>
             <DragDropContext
                 onDragStart={() => setDragSuccess(true)}
                 onDragUpdate={onDragUpdate}
                 onDragEnd={onDragEnd}
-                sensors={isDragEnabled ? null : [useMyCoolSensor]}
+                sensors={[useMyCoolSensor]}
                 onBeforeDragStart={(result) => {
                     diskBeforeDrag.current =
                         disksRefs[result.draggableId].current.getBoundingClientRect();
@@ -119,35 +144,41 @@ function App() {
                                     const columnRef = columnsRefs[ct.id];
                                     return (
                                         <div
-                                            className="bg-gray-500 border border-gray-800 cursor-pointer box"
+                                            className={`${
+                                                touchMove.start === ct.id
+                                                    ? 'bg-gray-500 border border-gray-800'
+                                                    : ''
+                                            } cursor-pointer box`}
                                             ref={(refVal) =>
                                                 setRef(refVal, provided.innerRef, columnRef)
                                             }
                                             {...provided.droppableProps}
                                             id={ct.id}
                                             onClick={() => {
-                                                setTouchMove((prev) => {
-                                                    // const prevCopy = { ...prev };
-                                                    // if (
-                                                    //     !prev.start &&
-                                                    //     state.containers[index].blocks.length > 0
-                                                    // ) {
-                                                    //     console.log('failure');
-                                                    //     prevCopy.start = ct.id;
-                                                    // } else if (prev.start === ct.id) {
-                                                    //     console.log(prev.start, ct.id);
-                                                    //     prevCopy.start = null;
-                                                    // } else if (prev.start) {
-                                                    //     console.log('???');
-                                                    //     prevCopy.end = ct.id;
-                                                    // }
-                                                    // console.log(prev);
-                                                    console.log('clicked');
-                                                    return {
-                                                        start: Math.random(),
-                                                        end: Math.random(),
-                                                    };
-                                                });
+                                                if (!isDragEnabled) {
+                                                    setTouchMove((prev) => {
+                                                        const prevCopy = { ...prev };
+                                                        if (
+                                                            !prev.start &&
+                                                            state.containers[index].blocks.length >
+                                                                0
+                                                        ) {
+                                                            console.log('failure');
+                                                            prevCopy.start = ct.id;
+                                                        } else if (prev.start === ct.id) {
+                                                            console.log(prev.start, ct.id);
+                                                            prevCopy.start = null;
+                                                        } else if (prev.start) {
+                                                            console.log('???');
+                                                            prevCopy.end = ct.id;
+                                                        }
+                                                        // console.log(prev);
+                                                        return {
+                                                            ...prev,
+                                                            ...prevCopy,
+                                                        };
+                                                    });
+                                                }
                                             }}
                                         >
                                             {ct.blocks.map((block, i) => {

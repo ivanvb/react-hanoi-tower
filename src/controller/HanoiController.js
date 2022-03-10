@@ -37,6 +37,10 @@ export function getBlockId(block) {
     return Number?.parseInt(block?.replace('b', '')) || null;
 }
 
+export function getColId(col) {
+    return Number?.parseInt(col?.replace('c', '')) || null;
+}
+
 export function canMove(state, destinationId, draggableId) {
     const destinationTop = state.containers.find((el) => el.id === destinationId)?.blocks?.[0];
 
@@ -63,4 +67,8 @@ export function performMovement(state, draggableId, sourceId, destinationId) {
         ...state,
         containers,
     };
+}
+
+export function getTopDisk(state, containerId) {
+    return state.containers.find(({ id }) => id === containerId)?.blocks?.[0] || null;
 }
