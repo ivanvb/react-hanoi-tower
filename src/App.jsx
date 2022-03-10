@@ -167,7 +167,6 @@ function App() {
                                                 setColumnRef(refVal, provided.innerRef, columnRef)
                                             }
                                             {...provided.droppableProps}
-                                            id={ct.id}
                                             onClick={() => handleColumnClick(ct.id, index)}
                                         >
                                             {ct.blocks.map((block, i) => {
