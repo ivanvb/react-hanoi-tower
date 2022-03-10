@@ -189,6 +189,7 @@ function App() {
                                                                         columnRef={columnRef}
                                                                         columnsRefs={columnsRefs}
                                                                         dbd={diskBeforeDrag}
+                                                                        disableDrag={!isDragEnabled}
                                                                     />
                                                                 );
                                                             }}

@@ -13,6 +13,7 @@ const DraggableDisk = ({
     columnRef,
     columnsRefs,
     dbd,
+    disableDrag,
 }) => {
     const currentId = getBlockId(block);
     const currentBlock = React.useMemo(() => {
@@ -52,7 +53,9 @@ const DraggableDisk = ({
 
     return (
         <Disk
-            className={`${snapshot?.isDragging ? 'is-dragging' : ''} `}
+            className={`${snapshot?.isDragging ? 'is-dragging' : ''} ${
+                disableDrag ? 'pointer-events-none' : ''
+            }`}
             color={state.blocks[block].color}
             diskId={currentId}
             innerRef={provided?.innerRef}
