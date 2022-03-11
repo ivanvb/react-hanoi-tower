@@ -72,3 +72,13 @@ export function performMovement(state, draggableId, sourceId, destinationId) {
 export function getTopDisk(state, containerId) {
     return state.containers.find(({ id }) => id === containerId)?.blocks?.[0] || null;
 }
+
+export function isVictoryState(state, victoryIndex) {
+    return state.containers.reduce((acc, curr, i) => {
+        if (!acc) return acc;
+
+        const isContainerEmpty = curr.blocks.length === 0;
+
+        return i === victoryIndex ? !isContainerEmpty : isContainerEmpty;
+    }, true);
+}
