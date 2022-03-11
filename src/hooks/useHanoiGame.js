@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react';
+import { useLocalStorage } from './useLocalStorage';
 
 export const useHanoiGame = (disks = 1) => {
-    const [moves, setMoves] = useState(0);
+    const [moves, setMoves] = useLocalStorage('moves', 0);
 
     function increaseMoves() {
         setMoves((prev) => prev + 1);

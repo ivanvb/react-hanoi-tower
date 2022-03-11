@@ -10,6 +10,7 @@ import {
 import DraggableDisk from './components/Disk/DraggableDisk';
 import { useRefMap } from './hooks/useRefMap';
 import { useHanoiGame } from './hooks/useHanoiGame';
+import { useLocalStorage } from './hooks/useLocalStorage';
 
 const data = getData();
 const disksIds = data.containers.reduce((acc, curr) => [...acc, ...curr.blocks], []);
@@ -20,9 +21,9 @@ const initialTouchState = {
 };
 
 function App() {
-    const [state, setState] = React.useState(data);
+    const [state, setState] = useLocalStorage('state', data);
     const [dragSuccess, setDragSuccess] = React.useState(true);
-    const [isDragEnabled, setDragEnabled] = React.useState(true);
+    const [isDragEnabled, setDragEnabled] = useLocalStorage('dragEnabled', false);
     const [touchMove, setTouchMove] = React.useState(initialTouchState);
     const { moves, increaseMoves, idealMoves } = useHanoiGame(disksIds.length);
 
