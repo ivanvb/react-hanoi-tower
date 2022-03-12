@@ -11,6 +11,7 @@ import DraggableDisk from './components/Disk/DraggableDisk';
 import { useRefMap } from './hooks/useRefMap';
 import { useHanoiGame } from './hooks/useHanoiGame';
 import { useLocalStorage } from './hooks/useLocalStorage';
+import Modal from './components/Modal/Modal';
 
 const data = getData();
 const disksIds = data.containers.reduce((acc, curr) => [...acc, ...curr.blocks], []);
@@ -123,9 +124,13 @@ function App() {
         }
     }
 
+    const [showModal, setShowModal] = React.useState(false);
+    React.useEffect(() => {
+        if (hasWon) setShowModal(true);
+    }, [hasWon]);
     return (
         <main className="container py-8">
-            {hasWon && <p className="text-center">Victory!</p>}
+            {hasWon && <Modal show={showModal} />}
             <div className="h-12 flex justify-between items-center bg-[#012A4A] px-4 py-8 rounded shadow-lg mb-6 font-bold tracking-wide font-mono text-center">
                 <p>
                     Ideal Moves

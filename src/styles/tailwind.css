@@ -2,10 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-#root {
-    @apply flex flex-col min-h-screen text-white bg-gray-800;
+body {
     background: #023a63;
-    overflow-y: hidden;
+}
+
+#root {
+    @apply flex flex-col min-h-screen text-white;
+    /* overflow-y: hidden; */
 }
 
 .box {
