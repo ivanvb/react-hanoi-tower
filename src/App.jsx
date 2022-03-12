@@ -11,7 +11,7 @@ import DraggableDisk from './components/Disk/DraggableDisk';
 import { useRefMap } from './hooks/useRefMap';
 import { useHanoiGame } from './hooks/useHanoiGame';
 import { useLocalStorage } from './hooks/useLocalStorage';
-import WinModal from './components/Modal/WinModal';
+const WinModal = React.lazy(() => import('./components/Modal/WinModal'));
 
 const data = getData();
 const disksIds = data.containers.reduce((acc, curr) => [...acc, ...curr.blocks], []);
@@ -126,7 +126,11 @@ function App() {
 
     return (
         <main className="container py-8">
-            {hasWon && <WinModal resetGame={() => console.log('reset game')} />}
+            {hasWon && (
+                <React.Suspense fallback={<div></div>}>
+                    <WinModal resetGame={() => console.log('reset game')} />
+                </React.Suspense>
+            )}
             <div className="h-12 flex justify-between items-center bg-[#012A4A] px-4 py-8 rounded shadow-lg mb-6 font-bold tracking-wide font-mono text-center">
                 <p>
                     Ideal Moves
