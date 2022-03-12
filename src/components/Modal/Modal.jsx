@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Dialog, useDialogState, DialogBackdrop, DialogDisclosure } from 'reakit/Dialog';
 
-function Modal({ initiallyVisible = true, children }) {
+function Modal({ initiallyVisible, children }) {
     const dialog = useDialogState({ visible: initiallyVisible, animated: true });
 
     const close = () => dialog.hide();

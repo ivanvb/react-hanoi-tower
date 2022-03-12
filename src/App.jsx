@@ -131,7 +131,7 @@ function App() {
     return (
         <main className="container py-8">
             {hasWon && (
-                <Modal show={showModal}>
+                <Modal initiallyVisible show={showModal}>
                     {({ close }) => {
                         return (
                             <>
