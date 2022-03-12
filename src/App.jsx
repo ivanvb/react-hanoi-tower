@@ -124,10 +124,6 @@ function App() {
         }
     }
 
-    const [showModal, setShowModal] = React.useState(false);
-    React.useEffect(() => {
-        if (hasWon) setShowModal(true);
-    }, [hasWon]);
     return (
         <main className="container py-8">
             {hasWon && <WinModal resetGame={() => console.log('reset game')} />}
