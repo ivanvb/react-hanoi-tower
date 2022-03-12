@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Dialog, useDialogState, DialogBackdrop, DialogDisclosure } from 'reakit/Dialog';
+import { Dialog, useDialogState, DialogBackdrop } from 'reakit/Dialog';
 
 function Modal({ initiallyVisible, children }) {
     const dialog = useDialogState({ visible: initiallyVisible, animated: true });
@@ -9,7 +9,6 @@ function Modal({ initiallyVisible, children }) {
 
     return (
         <div className="h-0">
-            <DialogDisclosure {...dialog}></DialogDisclosure>
             <DialogBackdrop
                 {...dialog}
                 className="fixed top-0 h-full bg-black w-full z-10 bg-opacity-50 flex justify-center items-center"
