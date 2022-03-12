@@ -4,11 +4,11 @@
 
 body {
     background: #023a63;
+    overflow-y: hidden;
 }
 
 #root {
     @apply flex flex-col min-h-screen text-white;
-    /* overflow-y: hidden; */
 }
 
 .box {
@@ -61,5 +61,29 @@ body {
 @media (max-width: 478px) {
     .box {
         width: 100px;
+    }
+}
+
+.__reakit-portal [role='dialog'] {
+    transform: translateY(100%);
+    opacity: 0;
+    transition: opacity 250ms ease-in-out, transform 250ms ease-in-out;
+}
+
+.__reakit-portal [role='dialog'][data-enter] {
+    opacity: 1;
+    transform: translateY(0%);
+}
+
+.__reakit-portal [role='dialog'][data-leave] {
+    opacity: 0;
+    transform: translateY(100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .__reakit-portal [role='dialog'] {
+        transform: translateY(0%);
+        opacity: 1;
+        transition: none;
     }
 }
