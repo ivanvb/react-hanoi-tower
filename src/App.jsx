@@ -130,7 +130,23 @@ function App() {
     }, [hasWon]);
     return (
         <main className="container py-8">
-            {hasWon && <Modal show={showModal} />}
+            {hasWon && (
+                <Modal show={showModal}>
+                    {({ close }) => {
+                        return (
+                            <>
+                                <p className="text-center text-xl font-bold">You've won!</p>
+                                <button
+                                    onClick={close}
+                                    className="bg-[#023a63] text-white px-16 py-2 rounded block mt-8 mx-auto"
+                                >
+                                    Reset
+                                </button>
+                            </>
+                        );
+                    }}
+                </Modal>
+            )}
             <div className="h-12 flex justify-between items-center bg-[#012A4A] px-4 py-8 rounded shadow-lg mb-6 font-bold tracking-wide font-mono text-center">
                 <p>
                     Ideal Moves
