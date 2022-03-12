@@ -26,7 +26,10 @@ function App() {
     const [dragSuccess, setDragSuccess] = React.useState(true);
     const [isDragEnabled, setDragEnabled] = useLocalStorage('dragEnabled', false);
     const [touchMove, setTouchMove] = React.useState(initialTouchState);
-    const { moves, increaseMoves, idealMoves, hasWon } = useHanoiGame(state, disksIds.length);
+    const { moves, increaseMoves, idealMoves, hasWon, reset } = useHanoiGame(
+        state,
+        disksIds.length
+    );
 
     const columnsRefs = useRefMap(data.containers.map(({ id }) => id));
     const disksRefs = useRefMap(disksIds);
@@ -128,10 +131,11 @@ function App() {
         <main className="container py-8">
             {hasWon && (
                 <React.Suspense fallback={<div></div>}>
-                    <WinModal resetGame={() => console.log('reset game')} />
+                    <WinModal resetGame={() => reset(setState)} />
                 </React.Suspense>
             )}
             <div className="h-12 flex justify-between items-center bg-[#012A4A] px-4 py-8 rounded shadow-lg mb-6 font-bold tracking-wide font-mono text-center">
+                <button onClick={() => reset(setState)}>r</button>
                 <p>
                     Ideal Moves
                     <br />
