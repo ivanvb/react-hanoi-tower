@@ -29,8 +29,27 @@ const initialData = {
     ],
 };
 
-export function getData() {
-    return JSON.parse(JSON.stringify(initialData));
+export function getData(blocks, columns = 3) {
+    const data = { blocks: {}, containers: [] };
+
+    const blocksIds = [];
+    for (let i = 1; i <= blocks; i++) {
+        const blockId = 'b' + i;
+        data.blocks[blockId] = {};
+        blocksIds.push(blockId);
+    }
+
+    for (let i = 1; i <= columns; i++) {
+        const columnId = 'c' + i;
+        data.containers.push({
+            id: columnId,
+            blocks: [],
+        });
+    }
+
+    data.containers[0].blocks = blocksIds;
+
+    return data;
 }
 
 export function getBlockId(block) {

@@ -13,7 +13,7 @@ import { useHanoiGame } from './hooks/useHanoiGame';
 import { useLocalStorage } from './hooks/useLocalStorage';
 const WinModal = React.lazy(() => import('./components/Modal/WinModal'));
 
-const data = getData();
+const data = getData(3);
 const disksIds = data.containers.reduce((acc, curr) => [...acc, ...curr.blocks], []);
 
 const initialTouchState = {
