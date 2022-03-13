@@ -2,7 +2,7 @@ import { useMemo, useEffect } from 'react';
 import { useLocalStorage } from './useLocalStorage';
 import { isVictoryState, getData } from '../controller/HanoiController';
 
-const DEFAULT_LEVEL = 3;
+const DEFAULT_LEVEL = 10;
 const defaultState = getData(DEFAULT_LEVEL);
 
 export const useHanoiGame = () => {

@@ -98,4 +98,22 @@ body {
 
 .disks-container {
     box-shadow: inset 0 4px 8px 0 rgb(0 0 0 / 0.3);
+    @apply relative;
+}
+
+@media (max-width: 478px) {
+    .disks-container {
+        padding-top: 200px;
+    }
+
+    .box {
+        width: min(45%, 180px);
+    }
+
+    .box:nth-of-type(2) {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+    }
 }
