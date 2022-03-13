@@ -1,20 +1,11 @@
 import React, { useCallback, useRef, useEffect } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import {
-    getData,
-    canMove,
-    performMovement,
-    getTopDisk,
-    getColId,
-} from './controller/HanoiController';
+import { canMove, performMovement, getTopDisk, getColId } from './controller/HanoiController';
 import DraggableDisk from './components/Disk/DraggableDisk';
 import { useRefMap } from './hooks/useRefMap';
 import { useHanoiGame } from './hooks/useHanoiGame';
 import { useLocalStorage } from './hooks/useLocalStorage';
 const WinModal = React.lazy(() => import('./components/Modal/WinModal'));
-
-const data = getData(3);
-const disksIds = data.containers.reduce((acc, curr) => [...acc, ...curr.blocks], []);
 
 const initialTouchState = {
     start: null,
@@ -22,16 +13,27 @@ const initialTouchState = {
 };
 
 function App() {
-    const [state, setState] = useLocalStorage('state', data);
     const [dragSuccess, setDragSuccess] = React.useState(true);
     const [isDragEnabled, setDragEnabled] = useLocalStorage('dragEnabled', false);
     const [touchMove, setTouchMove] = React.useState(initialTouchState);
-    const { moves, increaseMoves, idealMoves, hasWon, reset } = useHanoiGame(
+    const {
+        moves,
+        increaseMoves,
+        idealMoves,
+        hasWon,
+        reset,
         state,
-        disksIds.length
-    );
+        setState,
+        currentLevel,
+        goToNextLevel,
+        goToPrevLevel,
+    } = useHanoiGame();
 
-    const columnsRefs = useRefMap(data.containers.map(({ id }) => id));
+    const disksIds = React.useMemo(() => {
+        return state.containers.reduce((acc, curr) => [...acc, ...curr.blocks], []);
+    }, [currentLevel]);
+
+    const columnsRefs = useRefMap(state.containers.map(({ id }) => id));
     const disksRefs = useRefMap(disksIds);
     const diskBeforeDrag = useRef(null);
 
@@ -131,11 +133,11 @@ function App() {
         <main className="container py-8">
             {hasWon && (
                 <React.Suspense fallback={<div></div>}>
-                    <WinModal resetGame={() => reset(setState)} />
+                    <WinModal resetGame={reset} goToNextLevel={goToNextLevel} />
                 </React.Suspense>
             )}
             <div className="h-12 flex justify-between items-center bg-[#012A4A] px-4 py-8 rounded shadow-lg mb-6 font-bold tracking-wide font-mono text-center">
-                <button onClick={() => reset(setState)}>r</button>
+                <button onClick={reset}>r</button>
                 <p>
                     Ideal Moves
                     <br />
