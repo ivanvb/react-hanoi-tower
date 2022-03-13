@@ -30,7 +30,7 @@ const initialData = {
 };
 
 export function getData() {
-    return { ...initialData };
+    return JSON.parse(JSON.stringify(initialData));
 }
 
 export function getBlockId(block) {
