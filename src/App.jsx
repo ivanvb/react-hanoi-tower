@@ -139,7 +139,7 @@ function App() {
                 onBeforeDragStart={onDragBeforeStart}
                 sensors={[useTouchControls]}
             >
-                <div className="flex justify-between">
+                <div className="flex justify-between bg-[#F1DAAC] p-4 rounded disks-container">
                     {state.containers.map((ct, index) => {
                         return (
                             <Droppable
