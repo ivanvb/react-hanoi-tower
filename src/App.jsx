@@ -31,7 +31,7 @@ function App() {
 
     const disksIds = React.useMemo(() => {
         return state.containers.reduce((acc, curr) => [...acc, ...curr.blocks], []);
-    }, [currentLevel]);
+    }, [Object.keys(state.blocks)]);
 
     const columnsRefs = useRefMap(state.containers.map(({ id }) => id));
     const disksRefs = useRefMap(disksIds);
