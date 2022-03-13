@@ -29,9 +29,7 @@ function App() {
         goToPrevLevel,
     } = useHanoiGame();
 
-    const disksIds = React.useMemo(() => {
-        return state.containers.reduce((acc, curr) => [...acc, ...curr.blocks], []);
-    }, [Object.keys(state.blocks)]);
+    const disksIds = Object.keys(state.blocks);
 
     const columnsRefs = useRefMap(state.containers.map(({ id }) => id));
     const disksRefs = useRefMap(disksIds);

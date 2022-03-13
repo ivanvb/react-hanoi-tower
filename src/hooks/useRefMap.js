@@ -17,7 +17,7 @@ export const useRefMap = (keys) => {
                 mapOfRefs.current[key] = val;
             }
         });
-    }, [keys]);
+    }, [keys.length]);
 
     return mapOfRefs.current;
 };
