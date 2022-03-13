@@ -131,6 +131,7 @@ function App() {
                 isDragEnabled={isDragEnabled}
                 onDragToggle={() => setDragEnabled((prev) => !prev)}
                 onReset={reset}
+                onSettingsClick={() => {}}
             />
             <DragDropContext
                 onDragStart={() => setDragSuccess(true)}

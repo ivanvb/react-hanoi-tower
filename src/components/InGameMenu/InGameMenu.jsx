@@ -2,8 +2,16 @@ import React from 'react';
 import { GrPowerReset } from 'react-icons/gr';
 import { MdTouchApp } from 'react-icons/md';
 import { RiDragMoveFill } from 'react-icons/ri';
+import { IoMdSettings } from 'react-icons/io';
 
-const InGameMenu = ({ idealMoves, moves, isDragEnabled, onDragToggle, onReset }) => {
+const InGameMenu = ({
+    idealMoves,
+    moves,
+    isDragEnabled,
+    onDragToggle,
+    onReset,
+    onSettingsClick,
+}) => {
     return (
         <div className="h-12 flex justify-between items-center bg-[#012A4A] px-4 py-8 rounded shadow-lg mb-6 font-bold tracking-wide font-mono text-center">
             <div>
@@ -22,6 +30,9 @@ const InGameMenu = ({ idealMoves, moves, isDragEnabled, onDragToggle, onReset })
                 </button>
                 <button onClick={onReset}>
                     <GrPowerReset className="reset-icon" />
+                </button>
+                <button onClick={onSettingsClick}>
+                    <IoMdSettings size={16} />
                 </button>
             </div>
         </div>
