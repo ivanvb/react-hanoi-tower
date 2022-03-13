@@ -87,3 +87,7 @@ body {
         transition: none;
     }
 }
+
+.reset-icon > path {
+    stroke: currentColor;
+}

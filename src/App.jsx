@@ -5,6 +5,7 @@ import DraggableDisk from './components/Disk/DraggableDisk';
 import { useRefMap } from './hooks/useRefMap';
 import { useHanoiGame } from './hooks/useHanoiGame';
 import { useLocalStorage } from './hooks/useLocalStorage';
+import InGameMenu from './components/InGameMenu/InGameMenu';
 const WinModal = React.lazy(() => import('./components/Modal/WinModal'));
 
 const initialTouchState = {
@@ -16,18 +17,8 @@ function App() {
     const [dragSuccess, setDragSuccess] = React.useState(true);
     const [isDragEnabled, setDragEnabled] = useLocalStorage('dragEnabled', false);
     const [touchMove, setTouchMove] = React.useState(initialTouchState);
-    const {
-        moves,
-        increaseMoves,
-        idealMoves,
-        hasWon,
-        reset,
-        state,
-        setState,
-        currentLevel,
-        goToNextLevel,
-        goToPrevLevel,
-    } = useHanoiGame();
+    const { moves, increaseMoves, idealMoves, hasWon, reset, state, setState, goToNextLevel } =
+        useHanoiGame();
 
     const disksIds = Object.keys(state.blocks);
 
@@ -134,22 +125,13 @@ function App() {
                     <WinModal resetGame={reset} goToNextLevel={goToNextLevel} />
                 </React.Suspense>
             )}
-            <div className="h-12 flex justify-between items-center bg-[#012A4A] px-4 py-8 rounded shadow-lg mb-6 font-bold tracking-wide font-mono text-center">
-                <button onClick={reset}>r</button>
-                <p>
-                    Ideal Moves
-                    <br />
-                    {idealMoves}
-                </p>
-                <p>
-                    Moves
-                    <br />
-                    {moves}
-                </p>
-                <button onClick={() => setDragEnabled((prev) => !prev)}>
-                    {isDragEnabled ? 'enable touch' : 'enable drag'}
-                </button>
-            </div>
+            <InGameMenu
+                idealMoves={idealMoves}
+                moves={moves}
+                isDragEnabled={isDragEnabled}
+                onDragToggle={() => setDragEnabled((prev) => !prev)}
+                onReset={reset}
+            />
             <DragDropContext
                 onDragStart={() => setDragSuccess(true)}
                 onDragUpdate={onDragUpdate}
