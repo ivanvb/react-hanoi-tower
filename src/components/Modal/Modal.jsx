@@ -1,12 +1,15 @@
 import React from 'react';
 
-import { Dialog, useDialogState, DialogBackdrop, DialogDisclosure } from 'reakit/Dialog';
+import { Dialog, useDialogState, DialogBackdrop } from 'reakit/Dialog';
 
-function Modal({ initiallyVisible, hideOnClickOutside, children }) {
+function Modal({ initiallyVisible, hideOnClickOutside, onSettingsClose, children }) {
     const dialog = useDialogState({ visible: initiallyVisible, animated: true });
     const dialogRef = React.useRef(null);
 
-    const close = () => dialog.setVisible(false);
+    const close = () => {
+        if (onSettingsClose) onSettingsClose();
+        dialog.setVisible(false);
+    };
 
     React.useEffect(() => {
         if (dialog.visible) {
@@ -18,13 +21,13 @@ function Modal({ initiallyVisible, hideOnClickOutside, children }) {
         <div className="h-0">
             <DialogBackdrop
                 {...dialog}
-                className="fixed top-0 h-full bg-black w-full z-10 bg-opacity-50 flex justify-center items-center"
+                className="fixed top-0 z-10 flex items-center justify-center w-full h-full bg-black bg-opacity-50"
             >
                 <Dialog
                     {...dialog}
                     hideOnClickOutside={hideOnClickOutside}
                     aria-label="Welcome"
-                    className="bg-white absolute z-20 bottom-0 w-full p-8 rounded-t-md md:top-0 md:bottom-auto md:w-auto md:relative md:rounded-b-md"
+                    className="absolute bottom-0 z-20 w-full p-8 bg-white rounded-t-md md:top-0 md:bottom-auto md:w-auto md:relative md:rounded-b-md"
                     ref={dialogRef}
                 >
                     {children({ close })}

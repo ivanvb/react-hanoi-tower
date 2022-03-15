@@ -7,6 +7,7 @@ import { useHanoiGame } from './hooks/useHanoiGame';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import InGameMenu from './components/InGameMenu/InGameMenu';
 const WinModal = React.lazy(() => import('./components/Modal/WinModal'));
+const SettingsModal = React.lazy(() => import('./components/Modal/SettingsModal'));
 
 const initialTouchState = {
     start: null,
@@ -17,6 +18,7 @@ function App() {
     const [dragSuccess, setDragSuccess] = React.useState(true);
     const [isDragEnabled, setDragEnabled] = useLocalStorage('dragEnabled', false);
     const [touchMove, setTouchMove] = React.useState(initialTouchState);
+    const [showSettings, setShowSettings] = React.useState(false);
     const { moves, increaseMoves, idealMoves, hasWon, reset, state, setState, goToNextLevel } =
         useHanoiGame();
 
@@ -125,13 +127,18 @@ function App() {
                     <WinModal resetGame={reset} goToNextLevel={goToNextLevel} />
                 </React.Suspense>
             )}
+            {showSettings && (
+                <React.Suspense fallback={<div></div>}>
+                    <SettingsModal onSettingsClose={() => setShowSettings(false)} />
+                </React.Suspense>
+            )}
             <InGameMenu
                 idealMoves={idealMoves}
                 moves={moves}
                 isDragEnabled={isDragEnabled}
                 onDragToggle={() => setDragEnabled((prev) => !prev)}
                 onReset={reset}
-                onSettingsClick={() => {}}
+                onSettingsClick={() => setShowSettings(true)}
             />
             <DragDropContext
                 onDragStart={() => setDragSuccess(true)}
