@@ -101,3 +101,13 @@ export function isVictoryState(state, victoryIndex) {
         return i === victoryIndex ? !isContainerEmpty : isContainerEmpty;
     }, true);
 }
+
+export function calculateRating(moves, idealMoves) {
+    if (moves === idealMoves) {
+        return 3;
+    } else if (moves <= idealMoves * 1.25) {
+        return 2;
+    } else {
+        return 1;
+    }
+}
