@@ -19,8 +19,17 @@ function App() {
     const [isDragEnabled, setDragEnabled] = useLocalStorage('dragEnabled', false);
     const [touchMove, setTouchMove] = React.useState(initialTouchState);
     const [showSettings, setShowSettings] = React.useState(false);
-    const { moves, increaseMoves, idealMoves, hasWon, reset, state, setState, goToNextLevel } =
-        useHanoiGame();
+    const {
+        moves,
+        increaseMoves,
+        idealMoves,
+        hasWon,
+        reset,
+        state,
+        setState,
+        goToNextLevel,
+        setCurrentLevel,
+    } = useHanoiGame();
 
     const disksIds = Object.keys(state.blocks);
 
@@ -129,7 +138,10 @@ function App() {
             )}
             {showSettings && (
                 <React.Suspense fallback={<div></div>}>
-                    <SettingsModal onSettingsClose={() => setShowSettings(false)} />
+                    <SettingsModal
+                        onSettingsClose={() => setShowSettings(false)}
+                        onLevelSelect={setCurrentLevel}
+                    />
                 </React.Suspense>
             )}
             <InGameMenu

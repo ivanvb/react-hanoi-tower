@@ -3,7 +3,7 @@ import Modal from './Modal';
 import LevelRating from '../LevelRating/LevelRating';
 
 const levels = [2, 3, 4, 5, 6, 7, 8, 9, 10];
-const SettingsModal = ({ onSettingsClose }) => {
+const SettingsModal = ({ onSettingsClose, onLevelSelect }) => {
     return (
         <Modal initiallyVisible onSettingsClose={onSettingsClose}>
             {({ close }) => {
@@ -17,6 +17,7 @@ const SettingsModal = ({ onSettingsClose }) => {
                                         className="bg-[#023a63] text-white w-20 h-20 rounded relative mx-auto"
                                         key={i}
                                         onClick={() => {
+                                            onLevelSelect(level);
                                             close();
                                         }}
                                     >

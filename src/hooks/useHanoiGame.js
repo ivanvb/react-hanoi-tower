@@ -52,5 +52,6 @@ export const useHanoiGame = () => {
         currentLevel,
         goToNextLevel,
         goToPrevLevel,
+        setCurrentLevel,
     };
 };
