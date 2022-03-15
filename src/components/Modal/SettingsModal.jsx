@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from './Modal';
-import { AiFillStar } from 'react-icons/ai';
+import LevelRating from '../LevelRating/LevelRating';
 
 const levels = [2, 3, 4, 5, 6, 7, 8, 9, 10];
 const SettingsModal = ({ onSettingsClose }) => {
@@ -22,11 +22,7 @@ const SettingsModal = ({ onSettingsClose }) => {
                                     >
                                         <div className="absolute w-full px-4 -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
                                             <span className="block mb-1 text-xl">{level}</span>
-                                            <div className="relative flex justify-between w-12 pt-2 mx-auto">
-                                                <AiFillStar />
-                                                <AiFillStar className="absolute top-0 -translate-x-1/2 left-1/2" />
-                                                <AiFillStar />
-                                            </div>
+                                            <LevelRating rating={2} />
                                         </div>
                                     </button>
                                 );
