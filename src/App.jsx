@@ -35,6 +35,7 @@ function App() {
         setState,
         goToNextLevel,
         setCurrentLevel,
+        clearAllData,
     } = useHanoiGame();
 
     const disksIds = Object.keys(state.blocks);
@@ -151,6 +152,7 @@ function App() {
                     <SettingsModal
                         onSettingsClose={() => setShowSettings(false)}
                         onLevelSelect={setCurrentLevel}
+                        onDataClear={clearAllData}
                     />
                 </React.Suspense>
             )}

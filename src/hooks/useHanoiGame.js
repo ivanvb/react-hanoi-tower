@@ -16,6 +16,13 @@ export const useHanoiGame = () => {
         setState({ ...getData(currentLevel) });
     }
 
+    function clearAllData() {
+        setCurrentLevel(DEFAULT_LEVEL);
+        setState({ ...getData(DEFAULT_LEVEL) });
+        setMoves(0);
+        setHasWon(false);
+    }
+
     function increaseMoves() {
         setMoves((prev) => prev + 1);
     }
@@ -53,5 +60,6 @@ export const useHanoiGame = () => {
         goToNextLevel,
         goToPrevLevel,
         setCurrentLevel,
+        clearAllData,
     };
 };
