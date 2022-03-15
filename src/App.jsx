@@ -1,6 +1,12 @@
 import React, { useCallback, useRef, useEffect } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import { canMove, performMovement, getTopDisk, getColId } from './controller/HanoiController';
+import {
+    canMove,
+    performMovement,
+    getTopDisk,
+    getColId,
+    calculateRating,
+} from './controller/HanoiController';
 import DraggableDisk from './components/Disk/DraggableDisk';
 import { useRefMap } from './hooks/useRefMap';
 import { useHanoiGame } from './hooks/useHanoiGame';
@@ -133,7 +139,11 @@ function App() {
         <main className="container py-8">
             {hasWon && (
                 <React.Suspense fallback={<div></div>}>
-                    <WinModal resetGame={reset} goToNextLevel={goToNextLevel} />
+                    <WinModal
+                        resetGame={reset}
+                        goToNextLevel={goToNextLevel}
+                        rating={calculateRating(moves, idealMoves)}
+                    />
                 </React.Suspense>
             )}
             {showSettings && (
