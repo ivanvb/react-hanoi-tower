@@ -1,12 +1,19 @@
 import React, { useCallback, useRef, useEffect } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import { canMove, performMovement, getTopDisk, getColId } from './controller/HanoiController';
+import {
+    canMove,
+    performMovement,
+    getTopDisk,
+    getColId,
+    calculateRating,
+} from './controller/HanoiController';
 import DraggableDisk from './components/Disk/DraggableDisk';
 import { useRefMap } from './hooks/useRefMap';
 import { useHanoiGame } from './hooks/useHanoiGame';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import InGameMenu from './components/InGameMenu/InGameMenu';
 const WinModal = React.lazy(() => import('./components/Modal/WinModal'));
+const SettingsModal = React.lazy(() => import('./components/Modal/SettingsModal'));
 
 const initialTouchState = {
     start: null,
@@ -17,8 +24,18 @@ function App() {
     const [dragSuccess, setDragSuccess] = React.useState(true);
     const [isDragEnabled, setDragEnabled] = useLocalStorage('dragEnabled', false);
     const [touchMove, setTouchMove] = React.useState(initialTouchState);
-    const { moves, increaseMoves, idealMoves, hasWon, reset, state, setState, goToNextLevel } =
-        useHanoiGame();
+    const [showSettings, setShowSettings] = React.useState(false);
+    const {
+        moves,
+        increaseMoves,
+        idealMoves,
+        hasWon,
+        reset,
+        state,
+        setState,
+        goToNextLevel,
+        setCurrentLevel,
+    } = useHanoiGame();
 
     const disksIds = Object.keys(state.blocks);
 
@@ -122,7 +139,19 @@ function App() {
         <main className="container py-8">
             {hasWon && (
                 <React.Suspense fallback={<div></div>}>
-                    <WinModal resetGame={reset} goToNextLevel={goToNextLevel} />
+                    <WinModal
+                        resetGame={reset}
+                        goToNextLevel={goToNextLevel}
+                        rating={calculateRating(moves, idealMoves)}
+                    />
+                </React.Suspense>
+            )}
+            {showSettings && (
+                <React.Suspense fallback={<div></div>}>
+                    <SettingsModal
+                        onSettingsClose={() => setShowSettings(false)}
+                        onLevelSelect={setCurrentLevel}
+                    />
                 </React.Suspense>
             )}
             <InGameMenu
@@ -131,7 +160,7 @@ function App() {
                 isDragEnabled={isDragEnabled}
                 onDragToggle={() => setDragEnabled((prev) => !prev)}
                 onReset={reset}
-                onSettingsClick={() => {}}
+                onSettingsClick={() => setShowSettings(true)}
             />
             <DragDropContext
                 onDragStart={() => setDragSuccess(true)}
