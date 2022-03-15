@@ -22,7 +22,7 @@ const SettingsModal = ({ onSettingsClose }) => {
                                     >
                                         <div className="absolute w-full px-4 -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
                                             <span className="block mb-1 text-xl">{level}</span>
-                                            <LevelRating rating={2} />
+                                            <LevelRating rating={2} className="w-12 pt-2" />
                                         </div>
                                     </button>
                                 );

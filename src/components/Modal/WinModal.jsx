@@ -1,4 +1,5 @@
 import React from 'react';
+import LevelRating from '../LevelRating/LevelRating';
 import Modal from './Modal';
 
 const WinModal = ({ resetGame, goToNextLevel }) => {
@@ -7,13 +8,14 @@ const WinModal = ({ resetGame, goToNextLevel }) => {
             {({ close }) => {
                 return (
                     <>
-                        <p className="text-center text-xl font-bold">You've won!</p>
+                        <p className="mb-4 text-xl font-bold text-center">You've won!</p>
+                        <LevelRating rating={2} starSize={48} className="pt-6 w-36" />
                         <button
                             onClick={() => {
                                 resetGame();
                                 close();
                             }}
-                            className="bg-[#023a63] text-white px-16 py-2 rounded block mt-8 mx-auto"
+                            className="bg-[#023a63] text-white px-16 py-2 rounded block mt-6 mx-auto"
                         >
                             Reset
                         </button>
