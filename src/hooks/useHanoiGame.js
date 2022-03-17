@@ -1,5 +1,6 @@
 import { useMemo, useEffect } from 'react';
 import { useLocalStorage } from './useLocalStorage';
+import { useEffectAfterMount } from './useEffectAfterMount';
 import { isVictoryState, getData } from '../controller/HanoiController';
 
 const DEFAULT_LEVEL = 3;
@@ -43,7 +44,7 @@ export const useHanoiGame = () => {
         setHasWon(isVictoryState(state, state.containers.length - 1));
     }, [moves]);
 
-    useEffect(() => {
+    useEffectAfterMount(() => {
         setMoves(0);
         setState(getData(currentLevel));
     }, [currentLevel]);
