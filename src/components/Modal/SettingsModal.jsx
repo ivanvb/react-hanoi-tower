@@ -1,9 +1,10 @@
 import React from 'react';
 import Modal from './Modal';
 import LevelRating from '../LevelRating/LevelRating';
+import ResetDataButton from '../ResetDataButton/ResetDataButton';
 
 const levels = [2, 3, 4, 5, 6, 7, 8, 9, 10];
-const SettingsModal = ({ onSettingsClose, onLevelSelect }) => {
+const SettingsModal = ({ onSettingsClose, onLevelSelect, onDataClear }) => {
     return (
         <Modal initiallyVisible onSettingsClose={onSettingsClose}>
             {({ close }) => {
@@ -28,6 +29,14 @@ const SettingsModal = ({ onSettingsClose, onLevelSelect }) => {
                                     </button>
                                 );
                             })}
+                        </div>
+                        <div className="mt-4">
+                            <ResetDataButton
+                                resetData={() => {
+                                    onDataClear();
+                                    close();
+                                }}
+                            />
                         </div>
                     </>
                 );
