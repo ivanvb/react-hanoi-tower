@@ -1,5 +1,6 @@
 import React, { useCallback, useRef, useEffect } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import * as tweenFunctions from 'tween-functions';
 import {
     canMove,
     performMovement,
@@ -12,6 +13,7 @@ import { useRefMap } from './hooks/useRefMap';
 import { useHanoiGame } from './hooks/useHanoiGame';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import InGameMenu from './components/InGameMenu/InGameMenu';
+import { getTopDiskCoords } from './utils/HanoiUtils';
 const WinModal = React.lazy(() => import('./components/Modal/WinModal'));
 const SettingsModal = React.lazy(() => import('./components/Modal/SettingsModal'));
 
@@ -22,7 +24,7 @@ const initialTouchState = {
 
 function App() {
     const [dragSuccess, setDragSuccess] = React.useState(true);
-    const [isDragEnabled, setDragEnabled] = useLocalStorage('dragEnabled', false);
+    const [isDragEnabled, setDragEnabled] = useLocalStorage('dragEnabled', true);
     const [touchMove, setTouchMove] = React.useState(initialTouchState);
     const [showSettings, setShowSettings] = React.useState(false);
     const {
@@ -55,6 +57,7 @@ function App() {
     });
 
     const onDragEnd = useCallback((result) => {
+        console.log('test');
         const { destination, draggableId, source } = result;
 
         const canPerformMovement = canMove(state, destination?.droppableId, draggableId);
@@ -76,6 +79,19 @@ function App() {
     });
 
     function useTouchControls(api) {
+        function moveStepByStep(drag, values) {
+            requestAnimationFrame(() => {
+                const newPosition = values.shift();
+                drag.move(newPosition);
+
+                if (values.length) {
+                    moveStepByStep(drag, values);
+                } else {
+                    drag.drop();
+                }
+            });
+        }
+
         function start() {
             const targetDisk = getTopDisk(state, touchMove.start);
 
@@ -85,21 +101,52 @@ function App() {
                 return;
             }
 
-            const drag = preDrag.snapLift();
-            const currentColIndex = getColId(touchMove.start);
-            const targetColIndex = getColId(touchMove.end);
+            // const drag = preDrag.snapLift();
+            // const currentColIndex = getColId(touchMove.start);
+            // const targetColIndex = getColId(touchMove.end);
 
-            for (let i = 0; i < Math.abs(currentColIndex - targetColIndex); i++) {
-                currentColIndex > targetColIndex ? drag.moveLeft() : drag.moveRight();
+            // for (let i = 0; i < Math.abs(currentColIndex - targetColIndex); i++) {
+            //     currentColIndex > targetColIndex ? drag.moveLeft() : drag.moveRight();
+            // }
+
+            // disksRefs[targetDisk].current.addEventListener(
+            //     'transitionend',
+            //     function () {
+            //         drag.drop();
+            //     },
+            //     { once: true }
+            // );
+
+            const topDisk = getTopDisk(state, touchMove.start);
+            const diskBeforeMove = disksRefs[topDisk].current.getBoundingClientRect();
+
+            const start = { x: 0, y: 0 };
+            console.log(touchMove.start, targetDisk, diskBeforeMove);
+            const cc = getTopDiskCoords(
+                columnsRefs[touchMove.start].current,
+                disksRefs[targetDisk].current,
+                diskBeforeMove
+            );
+            const comp = getTopDiskCoords(
+                columnsRefs[touchMove.end].current,
+                disksRefs[targetDisk].current
+            );
+
+            const end = { x: comp.x - cc.x, y: comp.y - cc.y - 19 };
+
+            console.log({ start: cc, end: comp });
+            const drag = preDrag.fluidLift(start);
+
+            const numberOfPoints = 15;
+            const points = [];
+            for (let i = 0; i < numberOfPoints; i++) {
+                points.push({
+                    x: tweenFunctions.easeOutCirc(i, start.x, end.x, numberOfPoints),
+                    y: tweenFunctions.easeOutCirc(i, start.y, end.y, numberOfPoints),
+                });
             }
 
-            disksRefs[targetDisk].current.addEventListener(
-                'transitionend',
-                function () {
-                    drag.drop();
-                },
-                { once: true }
-            );
+            moveStepByStep(drag, points);
         }
 
         useEffect(() => {
