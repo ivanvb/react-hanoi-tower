@@ -107,13 +107,15 @@ body {
     }
 
     .box {
-        width: min(45%, 180px);
+        width: min(45%, 165px);
     }
 
     .box:nth-of-type(2) {
         position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%);
+        top: 10px;
+        left: 0;
+        right: 0;
+        margin: auto;
+        padding-top: 0px;
     }
 }

@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 
 const Disk = forwardRef(({ className, color, diskId, style, innerRef, ...rest }, ref) => {
-    const calculatedWidth = diskId * 14;
+    const calculatedWidth = diskId * 24;
 
     function setRef(refVal) {
         if (ref) {
