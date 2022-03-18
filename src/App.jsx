@@ -101,27 +101,10 @@ function App() {
                 return;
             }
 
-            // const drag = preDrag.snapLift();
-            // const currentColIndex = getColId(touchMove.start);
-            // const targetColIndex = getColId(touchMove.end);
-
-            // for (let i = 0; i < Math.abs(currentColIndex - targetColIndex); i++) {
-            //     currentColIndex > targetColIndex ? drag.moveLeft() : drag.moveRight();
-            // }
-
-            // disksRefs[targetDisk].current.addEventListener(
-            //     'transitionend',
-            //     function () {
-            //         drag.drop();
-            //     },
-            //     { once: true }
-            // );
-
             const topDisk = getTopDisk(state, touchMove.start);
             const diskBeforeMove = disksRefs[topDisk].current.getBoundingClientRect();
 
             const start = { x: 0, y: 0 };
-            console.log(touchMove.start, targetDisk, diskBeforeMove);
             const cc = getTopDiskCoords(
                 columnsRefs[touchMove.start].current,
                 disksRefs[targetDisk].current,
@@ -132,9 +115,8 @@ function App() {
                 disksRefs[targetDisk].current
             );
 
-            const end = { x: comp.x - cc.x, y: comp.y - cc.y - 19 };
+            const end = { x: comp.x - cc.x, y: comp.y - cc.y - diskBeforeMove.height };
 
-            console.log({ start: cc, end: comp });
             const drag = preDrag.fluidLift(start);
 
             const numberOfPoints = 15;
