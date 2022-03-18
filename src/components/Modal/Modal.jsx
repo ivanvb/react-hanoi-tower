@@ -8,19 +8,24 @@ function Modal({ initiallyVisible, hideOnClickOutside, onSettingsClose, children
 
     const close = () => {
         dialog.setVisible(false);
-        dialogRef.current.addEventListener(
-            'transitionend',
-            function () {
-                if (onSettingsClose) onSettingsClose();
-            },
-            { once: true }
-        );
     };
 
     React.useEffect(() => {
+        function handleCloseAnimationEnd() {
+            if (onSettingsClose) onSettingsClose();
+        }
+
         if (dialog.visible) {
             dialogRef.current.focus();
+        } else {
+            dialogRef.current?.addEventListener('transitionend', handleCloseAnimationEnd, {
+                once: true,
+            });
         }
+
+        return () => {
+            dialog.current?.removeEventListener('transitionend', handleCloseAnimationEnd);
+        };
     }, [dialog.visible]);
 
     return (
