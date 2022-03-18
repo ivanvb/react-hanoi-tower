@@ -7,8 +7,14 @@ function Modal({ initiallyVisible, hideOnClickOutside, onSettingsClose, children
     const dialogRef = React.useRef(null);
 
     const close = () => {
-        if (onSettingsClose) onSettingsClose();
         dialog.setVisible(false);
+        dialogRef.current.addEventListener(
+            'transitionend',
+            function () {
+                if (onSettingsClose) onSettingsClose();
+            },
+            { once: true }
+        );
     };
 
     React.useEffect(() => {
