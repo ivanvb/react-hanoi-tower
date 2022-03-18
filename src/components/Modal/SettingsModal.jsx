@@ -6,7 +6,7 @@ import ResetDataButton from '../ResetDataButton/ResetDataButton';
 const levels = [2, 3, 4, 5, 6, 7, 8, 9, 10];
 const SettingsModal = ({ onSettingsClose, onLevelSelect, onDataClear }) => {
     return (
-        <Modal initiallyVisible onSettingsClose={onSettingsClose}>
+        <Modal initiallyVisible onModalClose={onSettingsClose}>
             {({ close }) => {
                 return (
                     <>

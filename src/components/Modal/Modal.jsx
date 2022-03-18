@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Dialog, useDialogState, DialogBackdrop } from 'reakit/Dialog';
 
-function Modal({ initiallyVisible, hideOnClickOutside, onSettingsClose, children }) {
+function Modal({ initiallyVisible, hideOnClickOutside, onModalClose, children }) {
     const dialog = useDialogState({ visible: initiallyVisible, animated: true });
     const dialogRef = React.useRef(null);
 
@@ -12,7 +12,7 @@ function Modal({ initiallyVisible, hideOnClickOutside, onSettingsClose, children
 
     React.useEffect(() => {
         function handleCloseAnimationEnd() {
-            if (onSettingsClose) onSettingsClose();
+            if (onModalClose) onModalClose();
         }
 
         if (dialog.visible) {
