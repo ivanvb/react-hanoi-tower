@@ -57,7 +57,6 @@ function App() {
     });
 
     const onDragEnd = useCallback((result) => {
-        console.log('test');
         const { destination, draggableId, source } = result;
 
         const canPerformMovement = canMove(state, destination?.droppableId, draggableId);
@@ -92,39 +91,51 @@ function App() {
             });
         }
 
-        function start() {
+        function performDiskMovement() {
             const targetDisk = getTopDisk(state, touchMove.start);
-
             const preDrag = api.tryGetLock(targetDisk);
 
             if (!preDrag) {
                 return;
             }
 
-            const topDisk = getTopDisk(state, touchMove.start);
-            const diskBeforeMove = disksRefs[topDisk].current.getBoundingClientRect();
+            const diskBeforeMove = disksRefs[targetDisk].current.getBoundingClientRect();
 
-            const start = { x: 0, y: 0 };
-            const cc = getTopDiskCoords(
+            const startPoint = getTopDiskCoords(
                 columnsRefs[touchMove.start].current,
                 disksRefs[targetDisk].current,
                 diskBeforeMove
             );
-            const comp = getTopDiskCoords(
+
+            const endPoint = getTopDiskCoords(
                 columnsRefs[touchMove.end].current,
                 disksRefs[targetDisk].current
             );
 
-            const end = { x: comp.x - cc.x, y: comp.y - cc.y - diskBeforeMove.height };
+            const targetPointRelativePosition = {
+                x: endPoint.x - startPoint.x,
+                y: endPoint.y - startPoint.y - diskBeforeMove.height,
+            };
 
-            const drag = preDrag.fluidLift(start);
+            const currentRelativeDiskPosition = { x: 0, y: 0 };
+            const drag = preDrag.fluidLift(currentRelativeDiskPosition);
 
             const numberOfPoints = 15;
             const points = [];
             for (let i = 0; i < numberOfPoints; i++) {
                 points.push({
-                    x: tweenFunctions.easeOutCirc(i, start.x, end.x, numberOfPoints),
-                    y: tweenFunctions.easeOutCirc(i, start.y, end.y, numberOfPoints),
+                    x: tweenFunctions.easeOutCirc(
+                        i,
+                        currentRelativeDiskPosition.x,
+                        targetPointRelativePosition.x,
+                        numberOfPoints
+                    ),
+                    y: tweenFunctions.easeOutCirc(
+                        i,
+                        currentRelativeDiskPosition.y,
+                        targetPointRelativePosition.y,
+                        numberOfPoints
+                    ),
                 });
             }
 
@@ -133,7 +144,7 @@ function App() {
 
         useEffect(() => {
             if (touchMove.end !== null && isDragEnabled === false) {
-                start();
+                performDiskMovement();
                 setTouchMove({ start: null, end: null });
             }
         }, [touchMove.end]);
