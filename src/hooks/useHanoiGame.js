@@ -23,6 +23,7 @@ export const useHanoiGame = () => {
     }
 
     function clearAllData() {
+        setScores(EMPTY_SCORE);
         setCurrentLevel(DEFAULT_LEVEL);
         setState({ ...getData(DEFAULT_LEVEL) });
         setMoves(0);
