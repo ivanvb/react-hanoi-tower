@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Dialog, useDialogState, DialogBackdrop } from 'reakit/Dialog';
 
-function Modal({ initiallyVisible, hideOnClickOutside, onModalClose, children }) {
+function Modal({ className = '', initiallyVisible, hideOnClickOutside, onModalClose, children }) {
     const dialog = useDialogState({ visible: initiallyVisible, animated: true });
     const dialogRef = React.useRef(null);
 
@@ -38,7 +38,7 @@ function Modal({ initiallyVisible, hideOnClickOutside, onModalClose, children })
                     {...dialog}
                     hideOnClickOutside={hideOnClickOutside}
                     aria-label="Welcome"
-                    className="absolute bottom-0 z-20 w-full p-8 bg-white rounded-t-md md:top-0 md:bottom-auto md:w-auto md:relative md:rounded-b-md"
+                    className={`${className} absolute bottom-0 z-20 w-full p-8 bg-white rounded-t-md md:top-0 md:bottom-auto md:w-auto md:relative md:rounded-b-md`}
                     ref={dialogRef}
                 >
                     {children({ close })}

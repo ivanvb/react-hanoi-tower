@@ -6,7 +6,7 @@ import { levels } from '../../controller/HanoiController';
 
 const SettingsModal = ({ scores, onSettingsClose, onLevelSelect, onDataClear }) => {
     return (
-        <Modal initiallyVisible onModalClose={onSettingsClose}>
+        <Modal initiallyVisible onModalClose={onSettingsClose} className="max-w-[425px]">
             {({ close }) => {
                 return (
                     <>
