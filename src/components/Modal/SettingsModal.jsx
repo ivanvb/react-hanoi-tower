@@ -2,9 +2,9 @@ import React from 'react';
 import Modal from './Modal';
 import LevelRating from '../LevelRating/LevelRating';
 import ResetDataButton from '../ResetDataButton/ResetDataButton';
+import { levels } from '../../controller/HanoiController';
 
-const levels = [2, 3, 4, 5, 6, 7, 8, 9, 10];
-const SettingsModal = ({ onSettingsClose, onLevelSelect, onDataClear }) => {
+const SettingsModal = ({ scores, onSettingsClose, onLevelSelect, onDataClear }) => {
     return (
         <Modal initiallyVisible onModalClose={onSettingsClose}>
             {({ close }) => {
@@ -28,7 +28,10 @@ const SettingsModal = ({ onSettingsClose, onLevelSelect, onDataClear }) => {
                                         >
                                             <div className="absolute w-full px-4 -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
                                                 <span className="block mb-1 text-xl">{level}</span>
-                                                <LevelRating rating={2} className="w-12 pt-2" />
+                                                <LevelRating
+                                                    rating={scores[level].score || 0}
+                                                    className="w-12 pt-2"
+                                                />
                                             </div>
                                         </div>
                                     </button>

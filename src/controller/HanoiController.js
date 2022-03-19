@@ -1,33 +1,4 @@
-const initialData = {
-    blocks: {
-        b1: {
-            color: '#9B287B',
-        },
-        b2: {
-            color: '#5C174E',
-        },
-        b3: {
-            color: '#402039',
-        },
-        b4: {
-            color: '#170F11',
-        },
-    },
-    containers: [
-        {
-            id: 'c1',
-            blocks: ['b1', 'b2', 'b3', 'b4'],
-        },
-        {
-            id: 'c2',
-            blocks: [],
-        },
-        {
-            id: 'c3',
-            blocks: [],
-        },
-    ],
-};
+export const levels = [2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 export function getData(blocks, columns = 3) {
     const data = { blocks: {}, containers: [] };

@@ -1,16 +1,21 @@
 import { useMemo, useEffect } from 'react';
 import { useLocalStorage } from './useLocalStorage';
 import { useEffectAfterMount } from './useEffectAfterMount';
-import { isVictoryState, getData } from '../controller/HanoiController';
+import { isVictoryState, getData, levels, calculateRating } from '../controller/HanoiController';
 
 const DEFAULT_LEVEL = 3;
 const defaultState = getData(DEFAULT_LEVEL);
+
+const EMPTY_SCORE = levels.reduce((acc, currentLevel) => {
+    return { ...acc, [currentLevel]: { score: 0 } };
+}, {});
 
 export const useHanoiGame = () => {
     const [currentLevel, setCurrentLevel] = useLocalStorage('currentLevel', DEFAULT_LEVEL);
     const [state, setState] = useLocalStorage('state', defaultState);
     const [moves, setMoves] = useLocalStorage('moves', 0);
     const [hasWon, setHasWon] = useLocalStorage('hasWon', false);
+    const [scores, setScores] = useLocalStorage('scores', EMPTY_SCORE);
 
     function reset() {
         setMoves(0);
@@ -49,6 +54,21 @@ export const useHanoiGame = () => {
         setState(getData(currentLevel));
     }, [currentLevel]);
 
+    useEffect(() => {
+        if (hasWon) {
+            const currentLevelPrevScore = scores[currentLevel].score;
+            const currentScore = calculateRating(moves, idealMoves);
+            if (currentScore > currentLevelPrevScore) {
+                setScores((prev) => {
+                    return {
+                        ...prev,
+                        [currentLevel]: { ...prev[currentLevel], score: currentScore },
+                    };
+                });
+            }
+        }
+    }, [hasWon]);
+
     return {
         moves,
         increaseMoves,
@@ -62,5 +82,6 @@ export const useHanoiGame = () => {
         goToPrevLevel,
         setCurrentLevel,
         clearAllData,
+        scores,
     };
 };
