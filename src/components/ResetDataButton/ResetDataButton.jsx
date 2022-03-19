@@ -6,7 +6,9 @@ const ResetDataButton = ({ resetData }) => {
         <>
             {clicked ? (
                 <div>
-                    <span>All your progress will be lost, do you want to proceed?</span>
+                    <span className="block w-0 min-w-full">
+                        Are you sure you want to delete all your data?
+                    </span>
 
                     <div className="flex mt-2 space-x-4">
                         <button className="text-red-600" onClick={resetData}>

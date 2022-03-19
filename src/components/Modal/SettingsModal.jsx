@@ -16,7 +16,7 @@ const SettingsModal = ({ scores, onSettingsClose, onLevelSelect, onDataClear }) 
                                 return (
                                     <button
                                         key={i}
-                                        className="relative before:pt-[100%] before:w-full before:block"
+                                        className="relative before:pt-[100%] before:w-full before:block w-auto md:w-20"
                                     >
                                         <div
                                             className="bg-[#023a63] text-white rounded absolute mx-auto h-full w-full top-0 left-0"
