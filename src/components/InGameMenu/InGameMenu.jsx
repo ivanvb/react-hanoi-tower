@@ -4,6 +4,7 @@ import { MdTouchApp } from 'react-icons/md';
 import { RiDragMoveFill } from 'react-icons/ri';
 import { IoMdSettings } from 'react-icons/io';
 
+const ICON_SIZE = 20;
 const InGameMenu = ({
     idealMoves,
     moves,
@@ -24,15 +25,19 @@ const InGameMenu = ({
                 <br />
                 {moves}
             </div>
-            <div className="space-x-4">
+            <div className="space-x-4 lg:space-x-5">
                 <button onClick={onDragToggle}>
-                    {isDragEnabled ? <MdTouchApp /> : <RiDragMoveFill />}
+                    {isDragEnabled ? (
+                        <MdTouchApp size={ICON_SIZE} />
+                    ) : (
+                        <RiDragMoveFill size={ICON_SIZE} />
+                    )}
                 </button>
                 <button onClick={onReset}>
-                    <GrPowerReset className="reset-icon" />
+                    <GrPowerReset className="reset-icon" size={ICON_SIZE} />
                 </button>
                 <button onClick={onSettingsClick}>
-                    <IoMdSettings size={16} />
+                    <IoMdSettings size={ICON_SIZE} />
                 </button>
             </div>
         </div>
