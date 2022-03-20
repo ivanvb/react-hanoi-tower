@@ -15,7 +15,8 @@ export function getTopDiskCoords(container, currentDisk, topDiskDims) {
         const paddingBottom = getPixelValue(container, 'padding-bottom');
         const { x, y, height, width } = container.getBoundingClientRect();
 
-        const yPos = Math.floor(y + height - paddingBottom);
+        const Y_OFFSET = 1;
+        const yPos = Math.floor(y + height - paddingBottom - Y_OFFSET);
         const xPos = x + width / 2 - currentWidth / 2;
 
         return { x: xPos, y: yPos };
