@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-    background: #023a63;
+    @apply bg-primary-500;
     overflow-y: hidden;
 }
 
@@ -27,35 +27,39 @@ body {
     position: relative;
 }
 
-.box::before {
+.box::before,
+.box::after {
     content: '';
-    height: 10px;
-    width: 100%;
     bottom: 0;
-    left: 0;
-    background: #012a4a;
     position: absolute;
-    border-radius: 20px;
+    border-radius: 5px;
+    @apply bg-primary-700;
+}
+
+.box::before {
+    height: 10px;
+    width: calc(100% - 5px);
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .box::after {
-    content: '';
     left: 50%;
-    bottom: 0;
     height: 90%;
     width: 10px;
-    position: absolute;
-    background: #012a4a;
     transform: translate(-50%, 0);
-    border-radius: 10px;
+}
+
+.box:last-of-type::before,
+.box:last-of-type::after {
+    @apply bg-secondary-500;
 }
 
 .disk > div {
-    background: #2d7ca0 !important;
-    border: 2px solid #012a4a;
     position: relative;
     z-index: 1;
     transition: all;
+    @apply border-2 bg-primary-300 border-primary-700;
 }
 
 .disk:not(.is-dragging) {
@@ -98,7 +102,7 @@ body {
 
 .disks-container {
     box-shadow: inset 0 4px 8px 0 rgb(0 0 0 / 0.3);
-    @apply relative;
+    @apply relative text-[#333];
 }
 
 @media (max-width: 478px) {

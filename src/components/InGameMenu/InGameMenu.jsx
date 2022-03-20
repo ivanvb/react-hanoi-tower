@@ -13,7 +13,7 @@ const InGameMenu = ({
     onSettingsClick,
 }) => {
     return (
-        <div className="h-12 flex justify-between items-center bg-[#012A4A] px-4 py-8 rounded shadow-lg mb-6 font-bold tracking-wide font-mono text-center">
+        <div className="flex items-center justify-between h-12 px-4 py-8 mb-6 font-mono font-bold tracking-wide text-center border-2 rounded shadow-lg bg-primary-700 border-primary-900">
             <div>
                 Ideal Moves
                 <br />

@@ -215,7 +215,7 @@ function App() {
                 onBeforeDragStart={onDragBeforeStart}
                 sensors={[useTouchControls]}
             >
-                <div className="flex justify-between bg-[#F1DAAC] p-4 rounded disks-container">
+                <div className="flex justify-between p-4 rounded bg-wall-500 disks-container">
                     {state.containers.map((ct, index) => {
                         return (
                             <Droppable
@@ -229,7 +229,7 @@ function App() {
                                         <div
                                             className={`${
                                                 touchMove.start === ct.id
-                                                    ? 'bg-gray-500 border-gray-800'
+                                                    ? 'bg-accent-500 border-accent-700'
                                                     : 'border-transparent'
                                             } cursor-pointer box border`}
                                             ref={(refVal) =>

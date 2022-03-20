@@ -19,7 +19,7 @@ const SettingsModal = ({ scores, onSettingsClose, onLevelSelect, onDataClear }) 
                                         className="relative before:pt-[100%] before:w-full before:block w-auto md:w-20"
                                     >
                                         <div
-                                            className="bg-[#023a63] text-white rounded absolute mx-auto h-full w-full top-0 left-0"
+                                            className="absolute top-0 left-0 w-full h-full mx-auto text-white rounded bg-primary-500"
                                             key={i}
                                             onClick={() => {
                                                 onLevelSelect(level);
