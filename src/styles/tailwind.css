@@ -3,13 +3,16 @@
 @tailwind utilities;
 
 body {
-    @apply flex flex-col justify-center bg-primary-500;
+    @apply h-full bg-primary-500;
     overflow-y: hidden;
 }
 
 #root {
-    @apply flex flex-col text-white absolute top-[40%] left-1/2 w-full;
-    transform: translate(-50%, -50%);
+    @apply flex flex-col justify-center h-screen text-white;
+}
+
+main {
+    @apply -mt-[100px] lg:-mt-[225px];
 }
 
 .container {
