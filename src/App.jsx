@@ -12,6 +12,7 @@ import DraggableDisk from './components/Disk/DraggableDisk';
 import { useRefMap } from './hooks/useRefMap';
 import { useHanoiGame } from './hooks/useHanoiGame';
 import { useLocalStorage } from './hooks/useLocalStorage';
+import { useServiceWorker } from './hooks/useServiceWorker';
 import InGameMenu from './components/InGameMenu/InGameMenu';
 import { getTopDiskCoords } from './utils/HanoiUtils';
 const WinModal = React.lazy(() => import('./components/Modal/WinModal'));
@@ -23,6 +24,7 @@ const initialTouchState = {
 };
 
 function App() {
+    useServiceWorker();
     const [dragSuccess, setDragSuccess] = React.useState(true);
     const [isDragEnabled, setDragEnabled] = useLocalStorage('dragEnabled', false);
     const [touchMove, setTouchMove] = React.useState(initialTouchState);

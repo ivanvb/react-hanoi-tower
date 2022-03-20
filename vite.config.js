@@ -1,12 +1,16 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
+import replace from '@rollup/plugin-replace';
 
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [
+        react(),
         VitePWA({
+            strategies: 'injectManifest',
             includeAssets: ['favicon.svg', 'favicon.ico', 'robots.txt', 'apple-touch-icon.png'],
+            srcDir: 'src',
             manifest: {
                 name: 'Tower of Hanoi',
                 short_name: 'Hanoi',
@@ -32,6 +36,6 @@ export default defineConfig({
                 ],
             },
         }),
-        react(),
+        replace({ __DATE__: new Date().toISOString(), preventAssignment: true }),
     ],
 });
