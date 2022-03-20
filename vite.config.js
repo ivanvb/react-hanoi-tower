@@ -13,9 +13,9 @@ export default defineConfig({
             srcDir: 'src',
             manifest: {
                 name: 'Tower of Hanoi',
-                short_name: 'Hanoi',
+                short_name: 'Tower of Hanoi',
                 description: 'Some description',
-                theme_color: '#000000',
+                theme_color: '#B2D6F7',
                 icons: [
                     {
                         src: 'pwa-192x192.png',
