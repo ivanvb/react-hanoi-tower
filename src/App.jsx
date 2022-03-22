@@ -8,6 +8,7 @@ import {
     getColId,
     calculateRating,
 } from './controller/HanoiController';
+import Logo from './components/Logo/Logo';
 import DraggableDisk from './components/Disk/DraggableDisk';
 import { useRefMap } from './hooks/useRefMap';
 import { useHanoiGame } from './hooks/useHanoiGame';
@@ -200,6 +201,7 @@ function App() {
                     />
                 </React.Suspense>
             )}
+            <Logo className="w-full mx-auto mb-6 md:w-7/12" />
             <InGameMenu
                 idealMoves={idealMoves}
                 moves={moves}

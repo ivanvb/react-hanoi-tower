@@ -109,6 +109,11 @@ main {
     @apply relative text-[#333];
 }
 
+.logo path {
+    -webkit-filter: drop-shadow(3px 3px 2px #27334b);
+    filter: drop-shadow(3px 3px 2px #3d567caa);
+}
+
 @media (max-width: 478px) {
     .disks-container {
         padding-top: 200px;
