@@ -181,7 +181,7 @@ function App() {
     }
 
     return (
-        <main className="container py-8">
+        <main className="container py-20 md:py-8">
             {hasWon && (
                 <React.Suspense fallback={<div></div>}>
                     <WinModal
