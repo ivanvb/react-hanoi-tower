@@ -228,7 +228,7 @@ function App() {
                                     droppableId={ct.id}
                                     ignoreContainerClipping={true}
                                 >
-                                    {(provided, snapshot) => {
+                                    {(provided) => {
                                         const columnRef = columnsRefs[ct.id];
                                         return (
                                             <div
