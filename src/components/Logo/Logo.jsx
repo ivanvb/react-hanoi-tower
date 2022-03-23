@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Logo = ({ className = '' }) => {
+const Logo = React.memo(({ className = '' }) => {
     return (
         <>
             <svg
@@ -60,6 +60,6 @@ const Logo = ({ className = '' }) => {
             </svg>
         </>
     );
-};
+});
 
 export default Logo;

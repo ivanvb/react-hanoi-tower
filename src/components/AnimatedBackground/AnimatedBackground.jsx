@@ -42,7 +42,7 @@ const BackgroundCircle = ({ speed, delay, size }) => {
     );
 };
 
-const AnimatedBackground = () => {
+const AnimatedBackground = React.memo(() => {
     return (
         <>
             {circles.map((circle, i) => {
@@ -50,6 +50,6 @@ const AnimatedBackground = () => {
             })}
         </>
     );
-};
+});
 
 export default AnimatedBackground;
