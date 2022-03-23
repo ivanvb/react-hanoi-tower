@@ -208,6 +208,7 @@ function App() {
                     <React.Suspense fallback={<div></div>}>
                         <SettingsModal
                             scores={scores}
+                            currentLevel={currentLevel}
                             onSettingsClose={() => setShowSettings(false)}
                             onLevelSelect={setCurrentLevel}
                             onDataClear={clearAllData}

@@ -4,7 +4,7 @@ import LevelRating from '../LevelRating/LevelRating';
 import ResetDataButton from '../ResetDataButton/ResetDataButton';
 import { levels } from '../../controller/HanoiController';
 
-const SettingsModal = ({ scores, onSettingsClose, onLevelSelect, onDataClear }) => {
+const SettingsModal = ({ scores, onSettingsClose, currentLevel, onLevelSelect, onDataClear }) => {
     return (
         <Modal initiallyVisible onModalClose={onSettingsClose} className="max-w-[425px]">
             {({ close }) => {
@@ -13,13 +13,18 @@ const SettingsModal = ({ scores, onSettingsClose, onLevelSelect, onDataClear }) 
                         <h2 className="mb-4 text-xl font-bold">Select an Amount of Disks</h2>
                         <div className="grid grid-cols-3 gap-4">
                             {levels.map((level, i) => {
+                                const isCurrentLevel = level === currentLevel;
                                 return (
                                     <button
                                         key={i}
                                         className="relative before:pt-[100%] before:w-full before:block w-auto md:w-20"
                                     >
                                         <div
-                                            className="absolute top-0 left-0 w-full h-full mx-auto text-white rounded bg-primary-500"
+                                            className={`absolute top-0 left-0 w-full h-full mx-auto text-white rounded ${
+                                                isCurrentLevel
+                                                    ? 'bg-secondary-500'
+                                                    : 'bg-primary-500'
+                                            }`}
                                             key={i}
                                             onClick={() => {
                                                 onLevelSelect(level);
