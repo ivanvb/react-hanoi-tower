@@ -130,6 +130,10 @@ main {
     animation: move-y-axis var(--speed-y) linear infinite alternate var(--delay-y);
 }
 
+.modal-button {
+    @apply block w-full px-16 py-2 text-white rounded bg-primary-500;
+}
+
 @keyframes move-x-axis {
     100% {
         transform: translateX(calc(100vw - var(--size)));

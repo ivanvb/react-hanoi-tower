@@ -15,7 +15,7 @@ const WinModal = ({ resetGame, goToNextLevel, rating }) => {
                                 resetGame();
                                 close();
                             }}
-                            className="block px-16 py-2 mx-auto mt-6 text-white rounded bg-primary-500"
+                            className="mt-6 modal-button"
                         >
                             Reset
                         </button>
@@ -25,7 +25,7 @@ const WinModal = ({ resetGame, goToNextLevel, rating }) => {
                                 goToNextLevel();
                                 close();
                             }}
-                            className="block px-16 py-2 mx-auto mt-4 text-white rounded bg-primary-500"
+                            className="mt-4 modal-button"
                         >
                             Next Level
                         </button>
