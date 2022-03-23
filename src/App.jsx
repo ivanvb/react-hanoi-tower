@@ -43,6 +43,7 @@ function App() {
         setCurrentLevel,
         clearAllData,
         scores,
+        currentLevel,
     } = useHanoiGame();
 
     const disksIds = Object.keys(state.blocks);
@@ -56,6 +57,10 @@ function App() {
             setTouchMove(initialTouchState);
         }
     }, [isDragEnabled]);
+
+    useEffect(() => {
+        setTouchMove(initialTouchState);
+    }, [currentLevel]);
 
     const onDragBeforeStart = useCallback((result) => {
         diskBeforeDrag.current = disksRefs[result.draggableId].current.getBoundingClientRect();
@@ -81,6 +86,11 @@ function App() {
 
         setDragSuccess(canPerformMovement);
     });
+
+    function onReset() {
+        setTouchMove(initialTouchState);
+        reset();
+    }
 
     function useTouchControls(api) {
         function moveStepByStep(drag, values) {
@@ -188,7 +198,7 @@ function App() {
                 {hasWon && (
                     <React.Suspense fallback={<div></div>}>
                         <WinModal
-                            resetGame={reset}
+                            resetGame={onReset}
                             goToNextLevel={goToNextLevel}
                             rating={calculateRating(moves, idealMoves)}
                         />
@@ -210,7 +220,7 @@ function App() {
                     moves={moves}
                     isDragEnabled={isDragEnabled}
                     onDragToggle={() => setDragEnabled((prev) => !prev)}
-                    onReset={reset}
+                    onReset={onReset}
                     onSettingsClick={() => setShowSettings(true)}
                 />
                 <DragDropContext
