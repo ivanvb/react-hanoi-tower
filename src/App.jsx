@@ -246,7 +246,9 @@ function App() {
                                                     touchMove.start === ct.id
                                                         ? 'bg-secondary-300 border-secondary-500'
                                                         : 'border-transparent'
-                                                } cursor-pointer box border`}
+                                                } ${
+                                                    isDragEnabled ? '' : 'cursor-pointer'
+                                                } box border`}
                                                 ref={(refVal) =>
                                                     setColumnRef(
                                                         refVal,
