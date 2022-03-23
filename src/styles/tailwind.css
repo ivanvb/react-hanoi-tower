@@ -160,6 +160,7 @@ main {
         padding-top: 0px;
     }
 
+    /* Hide all circles after the 5th one on mobile to avoid cluttering the background */
     .circle-container:nth-of-type(n + 5) {
         display: none;
     }
