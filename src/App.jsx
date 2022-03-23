@@ -16,6 +16,7 @@ import { useLocalStorage } from './hooks/useLocalStorage';
 import { useServiceWorker } from './hooks/useServiceWorker';
 import InGameMenu from './components/InGameMenu/InGameMenu';
 import { getTopDiskCoords } from './utils/HanoiUtils';
+import AnimatedBackground from './components/AnimatedBackground/AnimatedBackground';
 const WinModal = React.lazy(() => import('./components/Modal/WinModal'));
 const SettingsModal = React.lazy(() => import('./components/Modal/SettingsModal'));
 
@@ -181,110 +182,125 @@ function App() {
     }
 
     return (
-        <main className="container py-20 md:py-8">
-            {hasWon && (
-                <React.Suspense fallback={<div></div>}>
-                    <WinModal
-                        resetGame={reset}
-                        goToNextLevel={goToNextLevel}
-                        rating={calculateRating(moves, idealMoves)}
-                    />
-                </React.Suspense>
-            )}
-            {showSettings && (
-                <React.Suspense fallback={<div></div>}>
-                    <SettingsModal
-                        scores={scores}
-                        onSettingsClose={() => setShowSettings(false)}
-                        onLevelSelect={setCurrentLevel}
-                        onDataClear={clearAllData}
-                    />
-                </React.Suspense>
-            )}
-            <Logo className="w-full mx-auto mb-6 text-accent-500 md:w-7/12" />
-            <InGameMenu
-                idealMoves={idealMoves}
-                moves={moves}
-                isDragEnabled={isDragEnabled}
-                onDragToggle={() => setDragEnabled((prev) => !prev)}
-                onReset={reset}
-                onSettingsClick={() => setShowSettings(true)}
-            />
-            <DragDropContext
-                onDragStart={() => setDragSuccess(true)}
-                onDragUpdate={onDragUpdate}
-                onDragEnd={onDragEnd}
-                onBeforeDragStart={onDragBeforeStart}
-                sensors={[useTouchControls]}
-            >
-                <div className="flex justify-between p-4 rounded bg-accent-500 disks-container">
-                    {state.containers.map((ct, index) => {
-                        return (
-                            <Droppable
-                                key={ct.id}
-                                droppableId={ct.id}
-                                ignoreContainerClipping={true}
-                            >
-                                {(provided, snapshot) => {
-                                    const columnRef = columnsRefs[ct.id];
-                                    return (
-                                        <div
-                                            className={`${
-                                                touchMove.start === ct.id
-                                                    ? 'bg-secondary-300 border-secondary-500'
-                                                    : 'border-transparent'
-                                            } cursor-pointer box border`}
-                                            ref={(refVal) =>
-                                                setColumnRef(refVal, provided.innerRef, columnRef)
-                                            }
-                                            {...provided.droppableProps}
-                                            onClick={() => handleColumnClick(ct.id, index)}
-                                        >
-                                            {ct.blocks.map((block, i) => {
-                                                if (i === 0) {
-                                                    return (
-                                                        <Draggable
-                                                            key={block}
-                                                            draggableId={block}
-                                                            index={i}
-                                                        >
-                                                            {(provided, snapshot) => {
-                                                                return (
-                                                                    <DraggableDisk
-                                                                        provided={provided}
-                                                                        snapshot={snapshot}
-                                                                        state={state}
-                                                                        block={block}
-                                                                        diskRef={disksRefs[block]}
-                                                                        dragSuccess={dragSuccess}
-                                                                        columnRef={columnRef}
-                                                                        columnsRefs={columnsRefs}
-                                                                        dbd={diskBeforeDrag}
-                                                                        disableDrag={!isDragEnabled}
-                                                                    />
-                                                                );
-                                                            }}
-                                                        </Draggable>
-                                                    );
-                                                } else {
-                                                    return (
-                                                        <DraggableDisk
-                                                            key={block}
-                                                            state={state}
-                                                            block={block}
-                                                        />
-                                                    );
+        <>
+            <AnimatedBackground />
+            <main className="container py-20 md:py-8">
+                {hasWon && (
+                    <React.Suspense fallback={<div></div>}>
+                        <WinModal
+                            resetGame={reset}
+                            goToNextLevel={goToNextLevel}
+                            rating={calculateRating(moves, idealMoves)}
+                        />
+                    </React.Suspense>
+                )}
+                {showSettings && (
+                    <React.Suspense fallback={<div></div>}>
+                        <SettingsModal
+                            scores={scores}
+                            onSettingsClose={() => setShowSettings(false)}
+                            onLevelSelect={setCurrentLevel}
+                            onDataClear={clearAllData}
+                        />
+                    </React.Suspense>
+                )}
+                <Logo className="w-full mx-auto mb-6 text-accent-500 md:w-7/12" />
+                <InGameMenu
+                    idealMoves={idealMoves}
+                    moves={moves}
+                    isDragEnabled={isDragEnabled}
+                    onDragToggle={() => setDragEnabled((prev) => !prev)}
+                    onReset={reset}
+                    onSettingsClick={() => setShowSettings(true)}
+                />
+                <DragDropContext
+                    onDragStart={() => setDragSuccess(true)}
+                    onDragUpdate={onDragUpdate}
+                    onDragEnd={onDragEnd}
+                    onBeforeDragStart={onDragBeforeStart}
+                    sensors={[useTouchControls]}
+                >
+                    <div className="flex justify-between p-4 rounded bg-accent-500 disks-container">
+                        {state.containers.map((ct, index) => {
+                            return (
+                                <Droppable
+                                    key={ct.id}
+                                    droppableId={ct.id}
+                                    ignoreContainerClipping={true}
+                                >
+                                    {(provided, snapshot) => {
+                                        const columnRef = columnsRefs[ct.id];
+                                        return (
+                                            <div
+                                                className={`${
+                                                    touchMove.start === ct.id
+                                                        ? 'bg-secondary-300 border-secondary-500'
+                                                        : 'border-transparent'
+                                                } cursor-pointer box border`}
+                                                ref={(refVal) =>
+                                                    setColumnRef(
+                                                        refVal,
+                                                        provided.innerRef,
+                                                        columnRef
+                                                    )
                                                 }
-                                            })}
-                                        </div>
-                                    );
-                                }}
-                            </Droppable>
-                        );
-                    })}
-                </div>
-            </DragDropContext>
-        </main>
+                                                {...provided.droppableProps}
+                                                onClick={() => handleColumnClick(ct.id, index)}
+                                            >
+                                                {ct.blocks.map((block, i) => {
+                                                    if (i === 0) {
+                                                        return (
+                                                            <Draggable
+                                                                key={block}
+                                                                draggableId={block}
+                                                                index={i}
+                                                            >
+                                                                {(provided, snapshot) => {
+                                                                    return (
+                                                                        <DraggableDisk
+                                                                            provided={provided}
+                                                                            snapshot={snapshot}
+                                                                            state={state}
+                                                                            block={block}
+                                                                            diskRef={
+                                                                                disksRefs[block]
+                                                                            }
+                                                                            dragSuccess={
+                                                                                dragSuccess
+                                                                            }
+                                                                            columnRef={columnRef}
+                                                                            columnsRefs={
+                                                                                columnsRefs
+                                                                            }
+                                                                            dbd={diskBeforeDrag}
+                                                                            disableDrag={
+                                                                                !isDragEnabled
+                                                                            }
+                                                                        />
+                                                                    );
+                                                                }}
+                                                            </Draggable>
+                                                        );
+                                                    } else {
+                                                        return (
+                                                            <DraggableDisk
+                                                                key={block}
+                                                                state={state}
+                                                                block={block}
+                                                            />
+                                                        );
+                                                    }
+                                                })}
+                                            </div>
+                                        );
+                                    }}
+                                </Droppable>
+                            );
+                        })}
+                    </div>
+                </DragDropContext>
+            </main>
+        </>
     );
 }
 

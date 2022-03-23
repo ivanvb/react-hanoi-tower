@@ -14,11 +14,11 @@ body {
 #root {
     height: 100vh;
 }
-  
+
 @supports (-webkit-touch-callout: none) {
-#root {
-    height: -webkit-fill-available;
-}
+    #root {
+        height: -webkit-fill-available;
+    }
 }
 
 main {
@@ -102,14 +102,6 @@ main {
     transform: translateY(100%);
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .__reakit-portal [role='dialog'] {
-        transform: translateY(0%);
-        opacity: 1;
-        transition: none;
-    }
-}
-
 .reset-icon > path {
     stroke: currentColor;
 }
@@ -122,6 +114,32 @@ main {
 .logo path {
     -webkit-filter: drop-shadow(3px 3px 2px #27334b);
     filter: drop-shadow(3px 3px 2px #3d567caa);
+}
+
+.circle-container {
+    @apply absolute top-0 left-0 -z-50;
+    animation: move-x-axis var(--speed-x) linear infinite alternate var(--delay-x);
+}
+
+.circle {
+    height: var(--size);
+    width: var(--size);
+    @apply rounded-full bg-accent-500;
+    filter: blur(15px);
+    opacity: 0.25;
+    animation: move-y-axis var(--speed-y) linear infinite alternate var(--delay-y);
+}
+
+@keyframes move-x-axis {
+    100% {
+        transform: translateX(calc(100vw - var(--size)));
+    }
+}
+
+@keyframes move-y-axis {
+    100% {
+        transform: translateY(calc(100vh - var(--size)));
+    }
 }
 
 @media (max-width: 478px) {
@@ -140,5 +158,21 @@ main {
         right: 0;
         margin: auto;
         padding-top: 0px;
+    }
+
+    .circle-container:nth-of-type(n + 5) {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .__reakit-portal [role='dialog'] {
+        transform: translateY(0%);
+        opacity: 1;
+        transition: none;
+    }
+
+    .circle-container {
+        display: none;
     }
 }
