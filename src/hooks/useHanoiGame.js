@@ -3,7 +3,7 @@ import { useLocalStorage } from './useLocalStorage';
 import { useEffectAfterMount } from './useEffectAfterMount';
 import { isVictoryState, getData, levels, calculateRating } from '../controller/HanoiController';
 
-const DEFAULT_LEVEL = 3;
+const DEFAULT_LEVEL = 2;
 const defaultState = getData(DEFAULT_LEVEL);
 
 const EMPTY_SCORE = levels.reduce((acc, currentLevel) => {
