@@ -15,7 +15,7 @@ export default defineConfig({
                 name: 'Tower of Hanoi',
                 short_name: 'Tower of Hanoi',
                 description: 'Some description',
-                theme_color: '#B2D6F7',
+                theme_color: '#001329',
                 icons: [
                     {
                         src: 'pwa-192x192.png',
