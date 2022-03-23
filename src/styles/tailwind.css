@@ -4,11 +4,21 @@
 
 body {
     @apply h-full bg-primary-900;
-    overflow-y: hidden;
+    overflow: hidden;
 }
 
 #root {
-    @apply flex flex-col justify-center h-screen text-white;
+    @apply flex flex-col justify-center text-white;
+}
+
+#root {
+    height: 100vh;
+}
+  
+@supports (-webkit-touch-callout: none) {
+#root {
+    height: -webkit-fill-available;
+}
 }
 
 main {
