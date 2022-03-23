@@ -201,7 +201,7 @@ function App() {
                     />
                 </React.Suspense>
             )}
-            <Logo className="w-full mx-auto mb-6 text-wall md:w-7/12" />
+            <Logo className="w-full mx-auto mb-6 text-accent-500 md:w-7/12" />
             <InGameMenu
                 idealMoves={idealMoves}
                 moves={moves}
