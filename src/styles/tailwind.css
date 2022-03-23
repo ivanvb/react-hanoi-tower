@@ -3,19 +3,18 @@
 @tailwind utilities;
 
 body {
-    @apply h-full bg-primary-900;
-    overflow: hidden;
+    @apply h-screen bg-primary-900;
+    overflow-x: hidden;
 }
 
 #root {
     @apply flex flex-col justify-center text-white;
-}
-
-#root {
-    height: 100vh;
+    height: 100%;
+    overflow-y: hidden;
 }
 
 @supports (-webkit-touch-callout: none) {
+    body,
     #root {
         height: -webkit-fill-available;
     }
