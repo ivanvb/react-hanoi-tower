@@ -4,7 +4,6 @@
 
 body {
     @apply h-screen bg-primary-900;
-    overflow-x: hidden;
 }
 
 #root {
@@ -17,6 +16,7 @@ body {
     body,
     #root {
         height: -webkit-fill-available;
+        overflow: hidden;
     }
 }
 
