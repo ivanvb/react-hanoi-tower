@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-    @apply h-full bg-primary-500;
+    @apply h-full bg-primary-900;
     overflow-y: hidden;
 }
 
@@ -37,7 +37,7 @@ main {
     bottom: 0;
     position: absolute;
     border-radius: 5px;
-    @apply bg-primary-700;
+    @apply bg-primary-900;
 }
 
 .box::before {
@@ -63,7 +63,7 @@ main {
     position: relative;
     z-index: 1;
     transition: all;
-    @apply border-2 bg-primary-300 border-primary-700;
+    @apply border-2 bg-primary-300 border-primary-900;
 }
 
 .disk:not(.is-dragging) {
@@ -106,7 +106,7 @@ main {
 
 .disks-container {
     box-shadow: inset 0 4px 8px 0 rgb(0 0 0 / 0.3);
-    @apply relative text-[#333];
+    @apply relative;
 }
 
 .logo path {

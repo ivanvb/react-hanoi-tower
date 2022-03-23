@@ -201,7 +201,7 @@ function App() {
                     />
                 </React.Suspense>
             )}
-            <Logo className="w-full mx-auto mb-6 md:w-7/12" />
+            <Logo className="w-full mx-auto mb-6 text-wall md:w-7/12" />
             <InGameMenu
                 idealMoves={idealMoves}
                 moves={moves}
@@ -217,7 +217,7 @@ function App() {
                 onBeforeDragStart={onDragBeforeStart}
                 sensors={[useTouchControls]}
             >
-                <div className="flex justify-between p-4 rounded bg-wall-500 disks-container">
+                <div className="flex justify-between p-4 rounded bg-accent-500 disks-container">
                     {state.containers.map((ct, index) => {
                         return (
                             <Droppable
@@ -231,7 +231,7 @@ function App() {
                                         <div
                                             className={`${
                                                 touchMove.start === ct.id
-                                                    ? 'bg-accent-500 border-accent-700'
+                                                    ? 'bg-secondary-300 border-secondary-500'
                                                     : 'border-transparent'
                                             } cursor-pointer box border`}
                                             ref={(refVal) =>
