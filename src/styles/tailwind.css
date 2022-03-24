@@ -7,13 +7,12 @@
 }
 
 body {
-    @apply h-screen bg-primary-900;
+    @apply flex flex-col justify-center min-h-screen bg-primary-900;
 }
 
 #root {
     @apply flex flex-col justify-center text-white;
     height: 100%;
-    overflow-y: hidden;
 }
 
 @media (max-width: 478px) {
@@ -29,10 +28,6 @@ body {
     #root {
         height: -webkit-fill-available;
     }
-}
-
-main {
-    @apply -mt-[100px] lg:-mt-[225px];
 }
 
 .container {
@@ -175,7 +170,7 @@ main {
     }
 
     /* Hide all circles after the 5th one on mobile to avoid cluttering the background */
-    .circle-container:nth-of-type(n + 5) {
+    .circle-container:nth-of-type(n + 25) {
         display: none;
     }
 }

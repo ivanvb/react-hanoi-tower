@@ -44,11 +44,11 @@ const BackgroundCircle = ({ speed, delay, size }) => {
 
 const AnimatedBackground = React.memo(() => {
     return (
-        <>
+        <div className="fixed top-0 w-full h-full -z-10">
             {circles.map((circle, i) => {
                 return <BackgroundCircle {...circle} key={i} />;
             })}
-        </>
+        </div>
     );
 });
 
