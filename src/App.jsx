@@ -194,7 +194,7 @@ function App() {
     return (
         <>
             <AnimatedBackground />
-            <main className="container py-20 md:py-8 md-[100px] md:mb-[225px]">
+            <main className="container py-8 md:mb-[225px]">
                 {hasWon && (
                     <React.Suspense fallback={<div></div>}>
                         <WinModal

@@ -23,6 +23,12 @@ body {
     }
 }
 
+@media (min-height: 700px) {
+    main {
+        margin-bottom: 100px;
+    }
+}
+
 @supports (-webkit-touch-callout: none) {
     body,
     #root {
