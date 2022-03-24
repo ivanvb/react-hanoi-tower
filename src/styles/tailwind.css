@@ -7,7 +7,7 @@
 }
 
 body {
-    @apply flex flex-col justify-center min-h-screen bg-primary-900;
+    @apply block h-screen bg-primary-900;
 }
 
 #root {
@@ -23,7 +23,7 @@ body {
     }
 }
 
-@media (min-height: 700px) {
+@media (min-height: 700px), (display-mode: standalone), (display-mode: fullscreen) {
     main {
         margin-bottom: 100px;
     }
@@ -43,7 +43,7 @@ body {
 .box {
     padding: 10px;
     border-radius: 10px;
-    height: 180px;
+    height: 130px;
     width: 180px;
     display: flex;
     flex-direction: column;
@@ -157,9 +157,15 @@ body {
     }
 }
 
+@media (min-height: 700px) {
+    .box {
+        height: 180px;
+    }
+}
+
 @media (max-width: 478px) {
     .disks-container {
-        padding-top: 200px;
+        padding-top: 175px;
     }
 
     .box {
@@ -175,9 +181,10 @@ body {
         padding-top: 0px;
     }
 
-    /* Hide all circles after the 5th one on mobile to avoid cluttering the background */
-    .circle-container:nth-of-type(n + 25) {
-        display: none;
+    @media (min-height: 700px) {
+        .disks-container {
+            padding-top: 200px;
+        }
     }
 }
 
