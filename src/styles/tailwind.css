@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    --animatable-viewport-height: 100vh;
+}
+
 body {
     @apply h-screen bg-primary-900;
 }
@@ -12,11 +16,18 @@ body {
     overflow-y: hidden;
 }
 
+@media (max-width: 478px) {
+    @supports (-webkit-touch-callout: none) {
+        :root {
+            --animatable-viewport-height: 95vh;
+        }
+    }
+}
+
 @supports (-webkit-touch-callout: none) {
     body,
     #root {
         height: -webkit-fill-available;
-        overflow: hidden;
     }
 }
 
@@ -141,7 +152,7 @@ main {
 
 @keyframes move-y-axis {
     100% {
-        transform: translateY(calc(100vh - var(--size)));
+        transform: translateY(calc(var(--animatable-viewport-height) - var(--size)));
     }
 }
 
