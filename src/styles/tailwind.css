@@ -19,7 +19,7 @@ body {
 @media (max-width: 478px) {
     @supports (-webkit-touch-callout: none) {
         :root {
-            --animatable-viewport-height: 95vh;
+            --animatable-viewport-height: 85vh;
         }
     }
 }
