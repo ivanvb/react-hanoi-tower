@@ -231,7 +231,7 @@ function App() {
                     onBeforeDragStart={onDragBeforeStart}
                     sensors={[useTouchControls]}
                 >
-                    <div className="flex justify-between p-4 rounded bg-accent-500 disks-container">
+                    <div className="flex justify-between p-4 rounded sm:p-4 bg-accent-500 disks-container">
                         {state.containers.map((ct, index) => {
                             return (
                                 <Droppable

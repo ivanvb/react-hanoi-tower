@@ -6,27 +6,23 @@
     --animatable-viewport-height: 100vh;
 }
 
+@supports (-webkit-touch-callout: none) {
+    :root {
+        --animatable-viewport-height: 85vh;
+    }
+}
+
 body {
     @apply block h-screen bg-primary-900;
 }
 
 #root {
     @apply flex flex-col justify-center text-white;
+    position: fixed;
+    top: 50%;
+    width: 100%;
+    transform: translateY(-50%);
     height: 100%;
-}
-
-@media (max-width: 478px) {
-    @supports (-webkit-touch-callout: none) {
-        :root {
-            --animatable-viewport-height: 85vh;
-        }
-    }
-}
-
-@media (min-height: 700px), (display-mode: standalone), (display-mode: fullscreen) {
-    main {
-        margin-bottom: 100px;
-    }
 }
 
 @supports (-webkit-touch-callout: none) {
@@ -40,44 +36,48 @@ body {
     max-width: 768px;
 }
 
+/* Hanoi container styles */
 .box {
     padding: 10px;
     border-radius: 10px;
     height: 130px;
-    width: 180px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
-    position: relative;
+    width: min(45%, 165px);
+    @apply relative flex flex-col items-center justify-end;
+}
+
+.box:nth-of-type(2) {
+    top: 10px;
+    @apply absolute left-0 right-0 pt-0 mx-auto;
 }
 
 .box::before,
 .box::after {
     content: '';
-    bottom: 0;
-    position: absolute;
     border-radius: 5px;
-    @apply bg-primary-900;
-}
-
-.box::before {
-    height: 10px;
-    width: calc(100% - 5px);
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.box::after {
-    left: 50%;
-    height: 90%;
-    width: 10px;
-    transform: translate(-50%, 0);
+    @apply absolute bottom-0 bg-primary-900 left-1/2;
 }
 
 .box:last-of-type::before,
 .box:last-of-type::after {
     @apply bg-secondary-500;
+}
+
+.box::before {
+    height: 10px;
+    width: calc(100% - 5px);
+    transform: translateX(-50%);
+}
+
+.box::after {
+    height: 90%;
+    width: 10px;
+    transform: translate(-50%, 0);
+}
+
+.disks-container {
+    box-shadow: inset 0 4px 8px 0 rgb(0 0 0 / 0.3);
+    padding-top: 175px;
+    @apply relative;
 }
 
 .disk > div {
@@ -91,12 +91,18 @@ body {
     transform: none !important;
 }
 
-@media (max-width: 478px) {
-    .box {
-        width: 100px;
-    }
+/* End of hanoi container */
+
+.reset-icon > path {
+    stroke: currentColor;
 }
 
+.logo path {
+    -webkit-filter: drop-shadow(3px 3px 2px #27334b);
+    filter: drop-shadow(3px 3px 2px #3d567caa);
+}
+
+/* Modal styles */
 .__reakit-portal [role='dialog'] {
     transform: translateY(100%);
     opacity: 0;
@@ -113,22 +119,15 @@ body {
     transform: translateY(100%);
 }
 
-.reset-icon > path {
-    stroke: currentColor;
+.modal-button {
+    @apply block w-full px-16 py-2 text-white rounded bg-primary-500;
 }
 
-.disks-container {
-    box-shadow: inset 0 4px 8px 0 rgb(0 0 0 / 0.3);
-    @apply relative;
-}
+/* End of Modal styles */
 
-.logo path {
-    -webkit-filter: drop-shadow(3px 3px 2px #27334b);
-    filter: drop-shadow(3px 3px 2px #3d567caa);
-}
-
+/* Animated Background */
 .circle-container {
-    @apply absolute top-0 left-6 -z-50;
+    @apply absolute left-0 top-6 -z-50;
     animation: move-x-axis var(--speed-x) linear infinite alternate var(--delay-x);
 }
 
@@ -141,50 +140,38 @@ body {
     animation: move-y-axis var(--speed-y) linear infinite alternate var(--delay-y);
 }
 
-.modal-button {
-    @apply block w-full px-16 py-2 text-white rounded bg-primary-500;
-}
+/* End of Animated Background */
 
-@keyframes move-x-axis {
-    100% {
-        transform: translateX(calc(100vw - var(--size)));
-    }
-}
-
-@keyframes move-y-axis {
-    100% {
-        transform: translateY(calc(var(--animatable-viewport-height) - var(--size)));
-    }
-}
-
-@media (min-height: 700px) {
+@media screen(medium) {
     .box {
         height: 180px;
     }
+
+    .disks-container {
+        padding-top: 200px;
+    }
 }
 
-@media (max-width: 478px) {
+@media screen(sm) {
+    :root {
+        --animatable-viewport-height: 100vh;
+    }
+
     .disks-container {
-        padding-top: 175px;
+        padding-top: unset;
     }
 
-    .box {
-        width: min(45%, 165px);
-    }
-
+    .box,
     .box:nth-of-type(2) {
-        position: absolute;
-        top: 10px;
-        left: 0;
-        right: 0;
-        margin: auto;
-        padding-top: 0px;
+        top: 0;
+        width: 180px;
+        position: relative;
     }
+}
 
-    @media (min-height: 700px) {
-        .disks-container {
-            padding-top: 200px;
-        }
+@media screen(tall) {
+    main {
+        margin-bottom: 100px;
     }
 }
 
@@ -197,5 +184,17 @@ body {
 
     .circle-container {
         display: none;
+    }
+}
+
+@keyframes move-x-axis {
+    100% {
+        transform: translateX(calc(100vw - var(--size)));
+    }
+}
+
+@keyframes move-y-axis {
+    100% {
+        transform: translateY(calc(var(--animatable-viewport-height) - var(--size)));
     }
 }

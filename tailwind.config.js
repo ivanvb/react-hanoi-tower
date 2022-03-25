@@ -24,6 +24,10 @@ module.exports = {
                     md: '2rem',
                 },
             },
+            screens: {
+                medium: { raw: '(min-height: 625px)' },
+                tall: { raw: '(min-height: 700px)' },
+            },
         },
     },
 };
