@@ -18,6 +18,7 @@ const SettingsModal = ({ scores, onSettingsClose, currentLevel, onLevelSelect, o
                                     <button
                                         key={i}
                                         className="relative before:pt-[100%] before:w-full before:block w-auto md:w-20"
+                                        arial-level={`Go to level with ${level} disks. Your score is ${scores[level].score} / 3`}
                                     >
                                         <div
                                             className={`absolute top-0 left-0 w-full h-full mx-auto text-white rounded ${

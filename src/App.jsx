@@ -5,7 +5,6 @@ import {
     canMove,
     performMovement,
     getTopDisk,
-    getColId,
     calculateRating,
 } from './controller/HanoiController';
 import Logo from './components/Logo/Logo';
