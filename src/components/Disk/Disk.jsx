@@ -1,8 +1,6 @@
 import { forwardRef } from 'react';
 
 const Disk = forwardRef(({ className, color, diskId, style, innerRef, ...rest }, ref) => {
-    const calculatedWidth = diskId * 18;
-
     function setRef(refVal) {
         if (ref) {
             ref.current = refVal;
@@ -13,10 +11,10 @@ const Disk = forwardRef(({ className, color, diskId, style, innerRef, ...rest },
     return (
         <div ref={setRef} {...rest} style={style} className={`${className} disk`}>
             <div
-                className="relative h-[14px] lg:h-[16.5px] rounded-xl"
+                className="relative h-[14px] lg:h-[16.5px] rounded-xl disk-content"
                 style={{
                     backgroundColor: color,
-                    width: calculatedWidth,
+                    '--disk-id': diskId,
                 }}
             >
                 <span className="absolute block text-xs -translate-x-1/2 -translate-y-1/2 select-none top-1/2 left-1/2">

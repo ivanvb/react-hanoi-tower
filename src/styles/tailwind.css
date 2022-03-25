@@ -4,6 +4,7 @@
 
 :root {
     --animatable-viewport-height: 100vh;
+    --disk-width-multiplier: 13px;
 }
 
 @supports (-webkit-touch-callout: none) {
@@ -80,10 +81,11 @@ body {
     @apply relative;
 }
 
-.disk > div {
+.disk .disk-content {
     position: relative;
     z-index: 1;
     transition: all;
+    width: calc(var(--disk-id) * var(--disk-width-multiplier));
     @apply border-2 bg-primary-300 border-primary-900;
 }
 
@@ -155,6 +157,7 @@ body {
 @media screen(sm) {
     :root {
         --animatable-viewport-height: 100vh;
+        --disk-width-multiplier: 17px;
     }
 
     .disks-container {
