@@ -4,7 +4,8 @@
 
 :root {
     --animatable-viewport-height: 100vh;
-    --disk-width-multiplier: 13px;
+    --disk-width-multiplier: 20px;
+    --disk-width-multiplier__narrow: 13px;
 }
 
 @supports (-webkit-touch-callout: none) {
@@ -89,6 +90,10 @@ body {
     @apply border-2 bg-primary-300 border-primary-900;
 }
 
+[data-is-narrow-level='true'] .disk .disk-content {
+    width: calc(var(--disk-id) * var(--disk-width-multiplier__narrow));
+}
+
 .disk:not(.is-dragging) {
     transform: none !important;
 }
@@ -157,7 +162,8 @@ body {
 @media screen(sm) {
     :root {
         --animatable-viewport-height: 100vh;
-        --disk-width-multiplier: 17px;
+        --disk-width-multiplier: 24px;
+        --disk-width-multiplier__narrow: 17px;
     }
 
     .disks-container {
