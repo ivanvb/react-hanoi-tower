@@ -31,6 +31,7 @@ function App() {
     const [isDragEnabled, setDragEnabled] = useLocalStorage('dragEnabled', false);
     const [touchMove, setTouchMove] = React.useState(initialTouchState);
     const [showSettings, setShowSettings] = React.useState(false);
+    const [isTouchMoving, setIsTouchMoving] = React.useState(false);
     const {
         moves,
         increaseMoves,
@@ -103,15 +104,18 @@ function App() {
                     moveStepByStep(drag, values);
                 } else {
                     drag.drop();
+                    setIsTouchMoving(false);
                 }
             });
         }
 
         function performDiskMovement() {
+            setIsTouchMoving(true);
             const targetDisk = getTopDisk(state, touchMove.start);
             const preDrag = api.tryGetLock(targetDisk);
 
             if (!preDrag) {
+                setIsTouchMoving(false);
                 return;
             }
 
@@ -172,7 +176,7 @@ function App() {
     }
 
     function handleColumnClick(columnId, index) {
-        if (!isDragEnabled) {
+        if (!isDragEnabled && !isTouchMoving) {
             setTouchMove((prev) => {
                 const prevCopy = { ...prev };
 
