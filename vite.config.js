@@ -13,8 +13,8 @@ export default defineConfig({
             srcDir: 'src',
             manifest: {
                 name: 'Tower of Hanoi',
-                short_name: 'Tower of Hanoi',
-                description: 'Some description',
+                short_name: 'Hanoi',
+                description: 'Web implementation of the popular puzzle Tower of Hanoi',
                 theme_color: '#001329',
                 icons: [
                     {
