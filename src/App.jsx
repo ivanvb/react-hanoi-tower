@@ -1,5 +1,6 @@
 import React, { useCallback, useRef, useEffect } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import toast, { Toaster } from 'react-hot-toast';
 import * as tweenFunctions from 'tween-functions';
 import {
     canMove,
@@ -88,6 +89,7 @@ function App() {
 
     function onReset() {
         setTouchMove(initialTouchState);
+        toast('Game restarted');
         reset();
     }
 
@@ -193,6 +195,19 @@ function App() {
     return (
         <>
             <AnimatedBackground />
+            <Toaster
+                position="bottom-center"
+                toastOptions={{
+                    style: {
+                        background: '#222222F5',
+                        color: '#fff',
+                    },
+                    duration: 3500,
+                }}
+                containerStyle={{
+                    bottom: 60,
+                }}
+            />
             <main className="container py-8 md:mb-[225px]">
                 {hasWon && (
                     <React.Suspense fallback={<div></div>}>
@@ -219,7 +234,10 @@ function App() {
                     idealMoves={idealMoves}
                     moves={moves}
                     isDragEnabled={isDragEnabled}
-                    onDragToggle={() => setDragEnabled((prev) => !prev)}
+                    onDragToggle={() => {
+                        toast(isDragEnabled ? 'Enabled touch to move' : 'Enabled drag to move');
+                        setDragEnabled((prev) => !prev);
+                    }}
                     onReset={onReset}
                     onSettingsClick={() => setShowSettings(true)}
                 />
