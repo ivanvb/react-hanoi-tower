@@ -28,17 +28,20 @@ const InGameMenu = React.memo(
                     {moves}
                 </div>
                 <div className="space-x-4 lg:space-x-5">
-                    <button onClick={onDragToggle}>
+                    <button
+                        onClick={onDragToggle}
+                        aria-label={isDragEnabled ? 'Enable touch to move' : 'Enable drag to move'}
+                    >
                         {isDragEnabled ? (
                             <MdTouchApp size={ICON_SIZE} />
                         ) : (
                             <RiDragMoveFill size={ICON_SIZE} />
                         )}
                     </button>
-                    <button onClick={onReset}>
+                    <button onClick={onReset} aria-label="Reset game">
                         <GrPowerReset className="reset-icon" size={ICON_SIZE} />
                     </button>
-                    <button onClick={onSettingsClick}>
+                    <button onClick={onSettingsClick} aria-label="Open settings">
                         <IoMdSettings size={ICON_SIZE} />
                     </button>
                 </div>
